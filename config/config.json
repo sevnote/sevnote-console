@@ -2,30 +2,30 @@
     "development": {
         "app_port": 3600,
         "service": "http://console.sevnote.com",
-        "api_gateway": "http://60.191.205.93:3400",
+        "api_gateway": "http://localhost:3400",
         "redis_store": [{
             "host": "127.0.0.1",
             "port": 6379
         }], 
         "mysql":{
             "server" : "localhost",
-            "username": "root",
-            "password": "Mm234567",
+            "username": "username",
+            "password": "password",
             "database": "sevnote"
         }
     },
     "production": {
         "app_port": 3800,
         "service": "http://console.sevnote.com",
-        "api_gateway": "http://60.191.205.93:3400",
+        "api_gateway": "http://localhost:3400",
         "redis_store": [{
             "host": "127.0.0.1",
             "port": 6379
         }],
         "mysql":{
             "server" : "localhost",
-            "username": "root",
-            "password": "Mm123456",
+            "username": "username",
+            "password": "password",
             "database": "sevnote"
         }
     }
