@@ -1,0 +1,84 @@
+<% include ../public/header.ejs %>
+
+<section>
+  <section class="hbox stretch"> <!-- .aside -->
+  <!-- /.aside -->
+  <section id="content">
+    <section class="vbox">
+      <section class="scrollable padder">
+        <br/>
+        <section class="panel panel-default">
+        <header class="panel-heading"> 大客户维护 <i class="fa fa-info-sign text-muted" data-toggle="tooltip" data-placement="bottom" data-title="ajax to load the data."></i> 
+        </header>
+        <div>
+          <table class="table table-striped m-b-none" data-ride="datatables">
+            <thead>
+              <tr>
+                <th style="width:10%"></th>
+                <th style="width:15%">客户名</th>
+                <th style="width:12%">账户</th>
+                <th style="width:10%">类型</th>
+                <th style="width:10%">种类</th>
+                <th style="width:10%">行业</th>
+                <th style="width:10%">电话</th>
+                <th style="width:10%">QQ群</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+  </section>
+<a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen" data-target="#nav"></a> </section>
+</section>
+</section>
+</section>
+<% include ../public/footer.ejs %>
+<script type="text/javascript">
+ + function($) {
+    $(function() {
+    $('[data-ride="datatables"]').each(function() {
+        oTable = $(this).dataTable({
+        "autoWidth": false,
+        "iDisplayLength": 50,
+        "processing": true,
+        "ajax": {
+          url: "/custom/qqgroup_datatables"
+        },
+        "order": [[ 1, "desc" ]],
+        "columns": [
+            { "data" : "action","width": "5%"},
+            { "data": "name" },
+            { "data": "email" },
+            { "data": "account_type"},
+            { "data": "type" },
+            { "data": "industry" },
+            { "data": "phone" },
+            { "data": "qq" }
+        ],
+        "sPaginationType": "full_numbers",
+        "oLanguage": {
+          "sProcessing": "<img src='/images/datatable_loading.gif'>  努力加载数据中.",
+          "sLengthMenu": "每页显示 _MENU_ 条记录",
+          "sZeroRecords": "抱歉， 没有找到",
+          "sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
+          "sInfoEmpty": "没有数据",
+          "sInfoFiltered": "(从 _MAX_ 条数据中检索)",
+          "sZeroRecords": "没有检索到数据",
+          "sSearch": "模糊查询:  ",
+          "oPaginate": {
+            "sFirst": "首页",
+            "sPrevious": "前一页",
+            "sNext": "后一页",
+            "sLast": "尾页"
+          }
+        },
+      });
+    });
+  });
+}(window.jQuery); 
+
+
+</script>

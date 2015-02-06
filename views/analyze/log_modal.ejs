@@ -1,0 +1,28 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="clear">
+                <div class="h4 m-t-xs m-b-xs">
+                    <%if (data.priority !== "" || data.priority !== null || data.priority !== undefined) { %>
+                    <div class="pull-right <%=data.priority%> m-t-sm "><i class="fa fa-circle"></i></div>
+                    <%}%>
+                生成日期:<%=data['@timestamp']%> </div>
+                <small class="text-muted">地址: <%=data['host']%></small>
+            </div>
+        </div>
+        <div class="modal-body">
+            <ul class="list-group no-radius">
+                <li class="list-group-item">数据内容: <%=data['message']%></li>
+                <%if (type === 'syslog') { %> 
+                <li class="list-group-item">程序: <%=data['program']%></li>
+                <li class="list-group-item">主机名: <%=data['source']%></li>
+                <li class="list-group-item">设备: <%=data['source']%></li>
+                <li class="list-group-item">PID: <%=data['pid']%></li>
+                <%}%>
+            </ul>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-dark" data-dismiss="modal">关闭</button>
+        </div>
+    </div>
+</div>

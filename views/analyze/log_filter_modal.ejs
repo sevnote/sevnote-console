@@ -1,0 +1,45 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-body">
+            <div class="form-group"  id='manager_select'>
+                <div class="radio  i-checks">
+                    <label>
+                        <input type="radio" checked name="condition" value="must">
+                    <i></i> 符合条件 </label>
+                </div>
+                <div class="radio  i-checks">
+                    <label>
+                        <input type="radio"  name="condition" value="mustnot">
+                    <i></i> 排除条件 </label>
+                </div>
+                <div class="radio  i-checks">
+                    <label>
+                        <input type="radio"  name="condition" value="should">
+                    <i></i> 优先条件 </label>
+                </div>
+            </div>
+            <div class="form-group"  id='manager_select'>
+                <label>选择过滤条件:</label>
+                <select style="width:260px" class="select2"  name="filter_field">
+                    <option value="type" >类型</option>
+                    <option value="daterange" >时间范围</option>
+                    <option value="priority" >优先级</option>
+                    <option value="process" >进程</option>
+                    <option value="facility" >设备</option>
+                    <option value="source" >主机名</option>
+                    <option value="outhost" >出口地址</option>
+                </select>
+            </div>
+            <div class="form-group"  id='filter_field_text' hidden>
+                <label>检索关键字:</label>
+                <input type="text" name="filter_key" class="form-control">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-success" id="submit">添加</button>
+            <button type="button" class="btn btn-dark" data-dismiss="modal">关闭</button>
+        </div>
+    </div>
+</div>
+<script src="/static/view/analyze/log_filter_modal.js"  type="text/javascript" ></script>
+

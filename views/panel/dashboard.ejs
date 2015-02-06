@@ -1,0 +1,136 @@
+<% include ../public/header.ejs %>
+<section id="content">
+	<section class="vbox">
+		<section class="scrollable padder">
+			</br>
+			<section class="panel panel-default">
+			<header class="panel-heading font-bold">总览</header>
+			<div class="panel-body">
+				<div id="chart" style="height:350px" class="center">
+      <img src="/images/loading.gif" style="padding-top:170px;">
+        </div>
+			</div>
+		      <footer class="panel-footer bg-white">
+        <div class="row text-center no-gutter">
+          <div class="col-xs-3 b-r b-light">
+            <p class="h3 font-bold m-t" id="custom_length"><img src="/images/datatable_loading.gif"/></p>
+            <p class="text-muted"><a href="/custom/list">客户</a></p>
+          </div>
+          <div class="col-xs-3 b-r b-light">
+            <p class="h3 font-bold m-t" id="contact_length"><img src="/images/datatable_loading.gif"/></p>
+            <p class="text-muted"><a href="/contact/list">联系人</a></p>
+          </div>
+          <div class="col-xs-3 b-r b-light">
+            <p class="h3 font-bold m-t" id="opportunity_length"><img src="/images/datatable_loading.gif"/></p>
+            <p class="text-muted"><a href="/opportunity/list">未完成的销售机会<a/></p>
+          </div>
+          <div class="col-xs-3">
+            <p class="h3 font-bold m-t" id="sales_length"><img src="/images/datatable_loading.gif"/></p>
+            <p class="text-muted">已完成的销售额</p>
+          </div>
+        </div>
+      </footer>
+		</section>
+<% include ../public/footer.ejs %>
+<script type = "text/javascript" >
+
+
+$.ajax({
+  type: 'GET',
+  contentType: 'application/json',
+  url: '/panel/dashboard_data',
+  success: function(data) {
+    $("#custom_length").text(data.custom_length + "个");
+    $("#contact_length").text(data.contact_length + "个");
+    $("#opportunity_length").text(data.opportunity_length + "个");
+  },
+  timeout: function(err) {
+    $("#custom_length").text(err);
+    $("#contact_length").text(err);
+    $("#opportunity_length").text(err);
+  }
+});
+
+
+$.ajax({
+  type: 'GET',
+  contentType: 'application/json',
+  <% if(key=role == 'manager'){ %>
+    url: '/panel/chart',
+  <% } else { %>
+    url: '/data/panel_chart_data.txt',
+  <% } %>
+  success: function(data) {
+  <% if(key=role != 'manager'){ %>
+    var data = JSON.parse(data);
+  <% } %>  
+    $("#chart").removeClass('center');
+    var chart = AmCharts.makeChart("chart", {
+      "type": "serial",
+      "theme": "light",
+      "pathToImages": "http://www.amcharts.com/lib/3/images/",
+      "dataDateFormat": "YYYY-MM-DD",
+      "shortMonthNames" :['1月', '2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
+      "valueAxes": [{
+        "axisAlpha": 0,
+        "position": "left"
+      }],
+      "graphs": [{
+        "id": "g1",
+        "bullet": "round",
+        "bulletBorderAlpha": 1,
+        "bulletColor": "#FFFFFF",
+        "bulletSize": 5,
+        "hideBulletsCount": 50,
+        "lineThickness": 2,
+        "title": "red line",
+        "useLineColorForBulletBorder": true,
+        "valueField": "value"
+      }],
+      "chartScrollbar": {
+        "graph": "g1",
+        "scrollbarHeight": 30
+      },
+      "chartCursor": {
+        "cursorPosition": "mouse",
+        "pan": true
+      },
+      "categoryField": "date",
+      "categoryAxis": {
+        "parseDates": true,
+        "dashLength": 1,
+        "minorGridEnabled": true,
+        "position": "top"
+      },
+      "titles": [
+        {
+          "id": "Title-1",
+          "size": 15,
+          "text": "我的销售业绩"
+        }
+      ],
+      exportConfig: {
+        menuRight: '20px',
+        menuBottom: '50px',
+        menuItems: [{
+          icon: 'http://www.amcharts.com/lib/3/images/export.png',
+          format: 'png'
+        }]
+      },
+      "dataProvider": data
+    });
+
+    chart.addListener("rendered", zoomChart);
+
+    zoomChart();
+
+    function zoomChart() {
+      chart.zoomToIndexes(chart.dataProvider.length - 40, chart.dataProvider.length - 1);
+    }
+
+  }
+});
+
+
+</script>
+

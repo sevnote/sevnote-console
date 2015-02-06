@@ -1,0 +1,203 @@
+<% include ../public/header.ejs %>
+<section class="scrollable padder">
+  </br>
+  <section class="panel panel-default">
+  <header class="panel-heading font-bold">客户ID:<%=custom.online_id%></header>
+  <div class="panel-body">
+    <div class="page-title">
+      <h3><i class="fa fa-building-o"></i> <%=custom.name%> | <%=custom.email%></h3>
+      <span>官网: <%=custom.website%> | <%=custom.province%> | <%=custom.city%> | <%=custom.address%> |&nbsp;&nbsp;
+      <% if(key=custom.audited == '1'){ %>
+      &nbsp;<span class="label bg-success">已通过</span>
+      <% }else{ %>
+      &nbsp;<span class="label bg-danger">已拒绝</span>
+      <% } %>
+      |
+      <% if(key=custom.level != '0'){ %>
+      <span class="label bg-danger">大客户</span>
+      <% } else{ %>
+      <span class="label bg-light">普通客户</span>
+      <% } %>
+      <% if(key=custom.industry == '1000'){ %>
+      &nbsp;<span class="label bg-info">电子商务</span>
+      <% } %>
+      <% if(key=custom.industry == '2000'){ %>
+      &nbsp;<span class="label bg-info">手游</span>
+      <% } %>
+      <% if(key=custom.industry == '3000'){ %>
+      &nbsp;<span class="label bg-info">页游</span>
+      <% } %>
+      <% if(key=custom.industry == '8000'){ %>
+      &nbsp;<span class="label bg-info">端游</span>
+      <% } %>
+      <% if(key=custom.industry =='9000'){ %>
+      &nbsp;<span class="label bg-info">工具软件</span>
+      <% } %>
+      <% if(key=custom.industry == '10000'){ %>
+      &nbsp;<span class="label bg-info">教育培训</span>
+      <% } %>
+      <% if(key=custom.industry =='11000'){ %>
+      &nbsp;<span class="label bg-info">金融服务</span>
+      <% } %>
+      <% if(key=custom.industry == '12000'){ %>
+      &nbsp;<span class="label bg-info">生活娱乐</span>
+      <% } %>
+      <% if(key=custom.industry == '13000'){ %>
+      &nbsp;<span class="label bg-info">智能硬件</span>
+      <% } %>
+      <% if(key=custom.industry == '14000'){ %>
+      &nbsp;<span class="label bg-info">旅游户外</span>
+      <% } %>
+      <% if(key=custom.industry == '15000'){ %>
+      &nbsp;<span class="label bg-info">广告营销</span>
+      <% } %>
+      <% if(key=custom.industry == '16000'){ %>
+      &nbsp;<span class="label bg-info">媒体资讯</span>
+      <% } %>
+      <% if(key=custom.industry == '17000'){ %>
+      &nbsp;<span class="label bg-info">社交网络</span>
+      <% } %>
+      <% if(key=custom.industry == '18000'){ %>
+      &nbsp;<span class="label bg-info">传统行业</span>
+      <% } %>
+      <% if(key=custom.industry == '0'){ %>
+      &nbsp;<span class="label bg-info">未归类</span>
+      <% } %>
+      <% if(key=custom.type == '0'){ %>
+      &nbsp;<span class="label bg-dark">企业</span>
+      <% } %>
+      <% if(key=custom.type == '1'){ %>
+      &nbsp;<span class="label bg-primary">个人</span>
+      <% } %>
+      |
+      <span class="label bg-primary">获知渠道: <%=custom.known_from%></span>
+      </span> <br/><br/>
+      <span class='pull-right'>
+      <a href='/custom/edit_modal/<%=custom.online_id%>' data-toggle='ajaxModal' class='btn btn-default'><i class='fa fa-edit'></i>&nbsp;编辑基本信息</a>
+      <a href='/ubill/invoice_modal/<%=custom.online_id%>' data-toggle='ajaxModal' class='btn btn-default'><i class='fa fa-list-alt'></i>&nbsp;生成账单</a>
+      </span>
+      <span>
+      邮编:<strong><%=custom.zipcode%></strong> |
+      传真:<strong><%=custom.fax%></strong> |
+      QQ群:<strong><%=custom.qqgroup%></strong> |
+      客户经理:<strong><%=custom.manager%> </strong>
+      <br/>
+      <hr>
+      <p style="width:70%">
+      备注:<%=custom.remark%>
+      </p>
+      </span>
+    </div>
+  </div>
+  <footer class="panel-footer bg-white">
+    <div class="row text-center no-gutter">
+      <div class="col-xs-2 b-r b-light">
+        <p class="h5 font-bold"><a href="#contact"><span class='label bg-primary'><%=contact_length%> 个联系人</span></a></p>
+      </div>
+      <div class="col-xs-2 b-r b-light">
+        <p class="h5 font-bold"><span class='label bg-warning'>无数据</span> 个销售机会</p>
+      </div>
+      <div class="col-xs-2">
+        <p class="h5 font-bold"><span class='label bg-danger'>累计消费 ¥ <%=pay_amount%></span></p>
+      </div>
+      <div class="col-xs-2">
+        <p class="h5 font-bold"><span class='label bg-success'>累计充值 ¥ <%=charge_amount%></span></p>
+      </div>
+      <div class="col-xs-2">
+        <p class="h5 font-bold"><a href="/ubill/getavailablecoupon_modal/<%=custom.online_id %>"><span class='label bg-info'>无数据</span> 张代金券</a></p>
+      </div>
+      <div class="col-xs-2">
+        <% if(key=history_order_count == 0){ %>
+        <p class="h5 font-bold"><a href="#"><span class='label bg-dark'><%=history_order_count%></span> 张历史订单</a></p>
+        <% } else { %>
+        <p class="h5 font-bold"><a href="/ubill/get_history_order/<%=custom.online_id %>"><span class='label bg-dark'><%=history_order_count%> 张历史订单</span></a></p>
+        <% } %>
+      </div>
+    </div>
+  </footer>
+  <footer class="panel-footer text-center">
+    <div class="row pull-out">
+      <div class="col-xs-4">
+        <div class="padder-v"> <span class="m-b-xs h5 block text-black">¥ <%=accounts_money.amount_free%></span> <small class="text-muted">免费金额余额</small> </div>
+      </div>
+      <div class="col-xs-4 dk">
+        <div class="padder-v"> <span class="m-b-xs h5 block text-black">¥ <%=accounts_money.amount%></span> <small class="text-muted">账户余额</small> </div>
+      </div>
+      <div class="col-xs-4">
+        <div class="padder-v"> <span class="m-b-xs h5 block text-black">¥ <%=accounts_money.amount_credit%></span> <small class="text-muted">信用余额</small> </div>
+      </div>
+    </div>
+  </footer>
+</section>
+<section class="panel panel-default">
+<header class="panel-heading"> 销售机会 </header>
+<div class="row wrapper">
+  <div class="col-sm-5 m-b-xs">
+    <a href="/opportunity/add/<%=custom.id %>" class="btn btn-success">添加销售机会</a>
+  </div>
+</div>
+<div class="table-responsive">
+  <table class="table table-striped b-t b-light">
+    <thead>
+      <tr>
+        <th  style="width:10%">机会名称</th>
+        <th  style="width:10%">客户名称</th>
+        <th  style="width:10%">客户产品</th>
+        <th  style="width:10%">阶段</th>
+        <th  style="width:10%">可能性</th>
+        <th  style="width:10%">金额</th>
+        <th  style="width:10%">结束时间</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for (var i in opportunity) { %>
+      <tr>
+        <td><%=opportunity[i].name%></td>
+        <td><%=opportunity[i].custom_name%></td>
+        <td><%=opportunity[i].custom_product%></td>
+        <td><%=opportunity[i].stage%></td>
+        <td><%=opportunity[i].probability%> %</td>
+        <td>￥<%=opportunity[i].price%> </td>
+        <td><%=opportunity[i].close_date%></td>
+      </tr>
+      <% }; %>
+    </tbody>
+  </table>
+</div>
+</section>
+<section class="panel panel-default">
+<header class="panel-heading"> 联系人 </header>
+<div class="row wrapper" id="contact">
+<div class="col-sm-5 m-b-xs">
+  <a href="/contact/add/<%=custom.id %>" class="btn btn-success">添加联系人</b></a>
+</div>
+</div>
+<div class="table-responsive">
+<table class="table table-striped b-t b-light">
+  <thead>
+    <tr>
+      <th>姓名</th>
+      <th>邮箱</th>
+      <th>手机</th>
+      <th>QQ</th>
+      <th>微信</th>
+      <th>地址</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for (var i in contact) { %>
+    <tr>
+      <td><%=contact[i].user_name%></td>
+      <td><%=contact[i].email %></td>
+      <td><%=contact[i].handphone %></td>
+      <td><%=contact[i].qq %></td>
+      <td><%=contact[i].wechat %></td>
+      <td><%=contact[i].address %></td>
+    </tr>
+    <% }; %>
+  </tbody>
+</table>
+</div>
+</section>
+</section>
+<% include ../public/footer.ejs %>

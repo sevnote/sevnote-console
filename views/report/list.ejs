@@ -1,0 +1,102 @@
+<% include ../public/header.ejs %>
+<section class="panel panel-default scrollable">
+<header class="panel-heading"> <i class="fa fa-building-o"></i> 报表 <i class="fa fa-info-sign text-muted" data-toggle="tooltip" data-placement="bottom" ></i> </header>
+<div>
+    <table class="table b-t b-light" id="datatable">
+        <thead>
+            <tr>
+                <% for (var i in columns) { %>
+                <th style="text-align:left"><%=columns[i]%></th>
+                <% } %>
+            </tr>
+        </thead>
+        <tbody>
+            <% for (var i in data) { %>
+            <tr>
+                <% for (var j in columns) { %>
+                    <% if (columns[j] == 'name') { %>
+                    <th style="width:15%"><%=data[i].name%></th>
+                    <% } %>
+                    <% if (columns[j] == 'province') { %>
+                    <th><%=data[i].province%></th>
+                    <% } %>
+                    <% if (columns[j] == 'city') { %>
+                    <th><%=data[i].city%></th>
+                    <% } %>
+                    <% if (columns[j] == 'address') { %>
+                    <th style="width:15%"><%=data[i].address%></th>
+                    <% } %>
+                    <% if (columns[j] == 'industry') { %>
+                    <th style="width:7%"><%=data[i].industry%></th>
+                    <% } %>
+                    <% if (columns[j] == 'known_from') { %>
+                    <th style="width:7%"><%=data[i].known_from%></th>
+                    <% } %>
+                    <% if (columns[j] == 'type') { %>
+                    <th style="width:5%"><%=data[i].type%></th>
+                    <% } %>
+                    <% if (columns[j] == 'level') { %>
+                    <th style="width:7%"><%=data[i].level%></th>
+                    <% } %>
+                    <% if (columns[j] == 'user_name') { %>
+                    <th style="width:7%"><%=data[i].user_name%></th>
+                    <% } %>
+                    <% if (columns[j] == 'handphone') { %>
+                    <th style="width:10%"><%=data[i].handphone%></th>
+                    <% } %>
+                    <% if (columns[j] == 'qq') { %>
+                    <th style="width:7%"><%=data[i].qq%></th>
+                    <% } %>
+                    <% if (columns[j] == 'wechat') { %>
+                    <th style="width:7%"><%=data[i].wechat%></th>
+                    <% } %>
+                    <% if (columns[j] == 'audited') { %>
+                    <th style="width:5%"><%=data[i].audited%></th>
+                    <% } %>
+                    <% if (columns[j] == 'activate_flag') { %>
+                    <th style="width:5%"><%=data[i].activate_flag%></th>
+                    <% } %>
+                    <% if (columns[j] == 'phone_activate_flag') { %>
+                    <th style="width:5%"><%=data[i].phone_activate_flag%></th>
+                    <% } %>
+                    <% if (columns[j] == 'billed') { %>
+                    <th style="width:5%"><%=data[i].billed%></th>
+                    <% } %>
+                    <% if (columns[j] == 'tryed') { %>
+                    <th style="width:5%"><%=data[i].tryed%></th>
+                    <% } %>
+                <% } %>
+            </tr>
+            <% } %>
+        </tbody>
+    </table>
+</div>
+</section>
+<% include ../public/footer.ejs %>
+<script type="text/javascript">
++ function($) {
+    $(function() {
+        $('#datatable').each(function() {
+            var oTable = $(this).dataTable({
+                "bPaginate": false,
+                "stateSave": false,
+                "processing": false,
+                "serverSide": false,
+                "order": [
+                    [1, "desc"]
+                ]
+            });
+
+            $('#datatable tbody').on('click', 'tr', function() {
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                } else {
+                    oTable.$('tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                }
+            });
+            new $.fn.dataTable.FixedHeader(oTable);
+        });
+    });
+}(window.jQuery);
+</script>

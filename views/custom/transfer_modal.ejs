@@ -1,0 +1,98 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">转移客户</h5>
+        </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="col-lg-10">
+                        <label>选择客户经理:</label>
+                        <select style="width:260px" class="select2"  name="master">
+                            <option value="<%=info.manager%>"><%=info.manager%></option>
+                            <% for (var i in user_list) { %>
+                            <option value="<%=user_list[i].email%>"><%=user_list[i].email%></option>
+                            <% } %>
+                        </select>
+                    </div>
+                </div>
+                <br/>
+                <br/>
+                <div class="form-group">
+                    <div class="col-lg-10">
+                        <label>选择销售助理:</label>
+                        <select style="width:260px"  class="select2 "  name="slave">
+                            <option></option>
+                            <% for (var i in user_list) { %>
+                            <option value="<%=user_list[i].email%>"><%=user_list[i].email%></option>
+                            <% } %>
+                        </select>
+                    </div>
+                </div>
+                <br/>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" name="online_id" value='<%=info.online_id%>'>
+                <input type="hidden" name="local_id" value='<%=info.local_id%>'>
+                <button  id="submit" class="btn  btn-success">确定</button>
+                <button type="button" class="btn btn-dark" data-dismiss="modal">关闭</button>
+            </div>
+    </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+$(".select2").select2();
+
+$("#submit").click(function() {
+
+        var inputs = $("input:text").add($("input:hidden")).add($("select")).add($("textarea")).add($('.multiple :selected')),
+            str = "";
+
+        var obj = {};
+        $.each(inputs, function(index) {
+            if (this.name != '' && this.value != '') {
+                var value = this.value;
+                if($(this).attr('class') === 'select2 multiple'){
+                    var foo = [];
+                    $('.multiple :selected').each(function(i, selected){
+                        foo[i] = $(selected).text();
+                    });
+                    var value = foo ;
+                }
+                obj[this.name] = value
+            }
+        });
+
+        delete obj.undefined;
+        console.log(obj);
+        $.ajax({
+            type: 'POST',
+            data: JSON.stringify(obj),
+            contentType: 'application/json',
+            url: '/custom/transfer_do',
+            success: function(data) {
+                if(data.hasOwnProperty("errors") ){
+                    $.each(data.errors,function(item){
+                            var error_obj = $("input[name='"+item+"']").focus();
+                    });
+                noty({
+                        text: '缺少必须的字段',
+                        type: "error",
+                        layout: 'center',
+                        timeout: 1
+                    });
+                } else {
+                    noty({
+                        text: '操作成功',
+                        type: "success",
+                        layout: 'center',
+                        timeout: 1
+                    });
+                    //Success Display
+                    $('.modal.in').modal('hide'); 
+                    oTable.fnReloadAjax();
+                }
+            }
+        });
+    });
+});
+</script>

@@ -1,0 +1,237 @@
+<% include ../public/header.ejs %>
+<section id="content">
+    <section class="vbox">
+        <section class="scrollable padder">
+            </br>
+            <section class="panel panel-default">
+                <header class="panel-heading font-bold">创建报表
+                    <div id="reportrange" class="pull-right" style="cursor:pointer;">
+                        <i class="fa fa-calendar fa-lg"></i>&nbsp;
+                        <span>选择时间:&nbsp;<%=now%></span> <b class="caret"></b>
+                    </div></header>
+                    <form method="post" action="/report/create_do">
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <label>报表类型:</label><br/>
+                                <select style="width:260px" class="select2"  name="report_type">
+                                    <option value="list">表单列表</option>
+                                </select>
+                                <br/>
+                            </div>
+                            <div class="form-group">
+                                <label>选择需要展示的列(按次序排列):</label><br/>
+                                <select style="width:100%" class="select2"  multiple name="columns">
+                                    <optgroup label="公司信息">
+                                        <option value="custom.name">公司名</option>
+                                        <option value="custom.province">省</option>
+                                        <option value="custom.city">城市</option>
+                                        <option value="custom.address">地址</option>
+                                        <option value="custom.industry">行业</option>
+                                        <option value="custom.known_from">获知渠道</option>
+                                        <option value="custom.type">类型</option>
+                                        <option value='custom.level'>级别</option>
+                                    </optgroup>
+                                    <optgroup label="联系人信息">
+                                        <option value="contact.user_name">联系人姓名</option>
+                                        <option value="contact.handphone">手机</option>
+                                        <option value="contact.qq">QQ</option>
+                                        <option value="contact.wechat">微信</option>
+                                    </optgroup>
+                                    <optgroup label="注册策略">
+                                        <option value="custom.audited">是否审核</option>
+                                        <option value="custom.activate_flag">邮件是否激活</option>
+                                        <option value="custom.phone_activate_flag">电话是否激活</option>
+                                    </optgroup>
+                                    <optgroup label="付费信息">
+                                        <option value="billed">是否付费</option>
+                                        <option value="tryed">是否试用</option>
+                                    </optgroup>
+                                </select>
+                                <br/>
+                            </div>
+                            <div class='form-group'>
+                                <label>设定条件:</label><br/>
+                                <div class="col-lg-4">
+                                    <label>客户行业:</label><br/>
+                                    <select style="width:100%" class="select2"  multiple name="industry">
+                                        <option value="1000">电子商务</option>
+                                        <option value="2000">手游</option>
+                                        <option value="3000">页游</option>
+                                        <option value="4000">数据分析</option>
+                                        <option value="5000">移动APP</option>
+                                        <option value='6000'>网站</option>
+                                        <option value='7000'>SAAS</option>
+                                        <option value='8000'>端游</option>
+                                        <option value='9000'>工具软件</option>
+                                        <option value='11000'>金融服务</option>
+                                        <option value='12000'>生活娱乐</option>
+                                        <option value='13000'>智能硬件</option>
+                                        <option value='14000'>旅游户外</option>
+                                        <option value='15000'>广告营销</option>
+                                        <option value='16000'>媒体资讯</option>
+                                        <option value='17000'>社交网络</option>
+                                        <option value='18000'>传统行业</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-2">
+                                    <label>客户类型:</label><br/>
+                                    <div class="radio i-checks">
+                                        <label>
+                                            <input type="radio" name="type" value="1" checked >
+                                        <i></i> 个人 </label>
+                                    </div>
+                                    <div class="radio i-checks">
+                                        <label>
+                                            <input type="radio" name="type" value="0" >
+                                        <i></i> 企业 </label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <label>客户级别:</label><br/>
+                                    <div class="radio i-checks">
+                                        <label>
+                                            <input type="radio" name="level" value="1" checked >
+                                        <i></i> 大客户 </label>
+                                    </div>
+                                    <div class="radio i-checks">
+                                        <label>
+                                            <input type="radio" name="level" value="0" >
+                                        <i></i> 普通客户 </label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <label>是否付费:</label><br/>
+                                    <div class="radio i-checks">
+                                        <label>
+                                            <input type="radio" name="bill_status" value="1" checked >
+                                        <i></i> 已付费 </label>
+                                    </div>
+                                    <div class="radio i-checks">
+                                        <label>
+                                            <input type="radio" name="bill_status" value="0" >
+                                        <i></i> 未付费 </label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <label>是否试用:</label><br/>
+                                    <div class="radio i-checks">
+                                        <label>
+                                            <input type="radio" name="tryed" value="1" checked >
+                                        <i></i> 已试用 </label>
+                                    </div>
+                                    <div class="radio i-checks">
+                                        <label>
+                                            <input type="radio" name="tryed" value="0" >
+                                        <i></i> 未试用 </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <button   id="submit" class="btn  btn-success">生成报表</button>
+                        </div>
+                    </form>
+                </section>
+                <% include ../public/footer.ejs %>
+<script type="text/javascript">
+$(document).ready(function() {
+
+        $('#reportrange').daterangepicker(
+        {
+            locale: {
+                applyLabel: "确定",
+                cancelLabel: "取消",
+                fromLabel: "从",
+                toLabel: "到",
+                customRangeLabel: "自定义范围",
+                daysOfWeek: ["日", "一", "二", "三", "四", "五", "六"],
+                monthNames: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+                firstDay: 1
+            },
+            timePicker: true,
+            timePicker12Hour: false,
+            timeFormat: "HH:mm",
+            format: "YYYY-MM-DD",
+            ranges: {
+                "今天": [moment().startOf("day"), moment()],
+                "昨天": [moment().subtract("days", 1).startOf("day"), moment().subtract("days", 1).endOf("day")],
+                "最近7天": [moment().subtract("days", 6), moment()],
+                "最30天": [moment().subtract("days", 29), moment()],
+                "本月": [moment().startOf("month"), moment().endOf("month")],
+                "上月": [moment().subtract("month", 1).startOf("month"), moment().subtract("month", 1).endOf("month")]
+            },
+            startDate: moment().subtract('days', 29),
+            endDate: moment()
+        },
+        function(start, end) {
+            $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            window.startstamp = start.format('X');
+            window.endstamp = end.format('X');
+            //loadchart(startstamp,endstamp,url);
+        }
+    );
+
+
+    $(".select2").select2();
+    $("input[name='audited']").change(
+        function() {
+            var selectedvalue = $("input[name='audited']:checked").val();
+            if (selectedvalue === '1') {
+                $("#region_select").show();
+                $("#manager_select").show();
+            } else {
+                $("#region_select").hide();
+                $("#manager_select").hide();
+            }
+        });
+
+
+    $("#submit").click(function() {
+        var inputs = $("input:radio:checked").add($("input:text")).add($("input:hidden")).add($("select")).add($("textarea")).add($('.more-tag:selected')),
+            str = "";
+        var obj = {};
+        $.each(inputs, function(index) {
+            if (this.name != '' && this.value != '') {
+                var value = this.value;
+                if ($(this).attr('class') == 'select2 full-width-fix more-tag select2-offscreen') {
+                    var foo = [];
+                    $('.more-tag :selected').each(function(i, selected) {
+                        foo[i] = $(selected).attr('value');
+                    });
+                    var value = foo;
+                }
+                obj[this.name] = value
+            }
+        });
+        delete obj.undefined;
+        $.ajax({
+            type: 'POST',
+            data: JSON.stringify(obj),
+            contentType: 'application/json',
+            url: '/audit/audit_do',
+            success: function(data) {
+                if (data.ret_code === 1000) {
+                    $.each(data.error_field, function(item) {
+                        var error_obj = $("[name='" + data.error_field[item] + "']").focus();
+                        var error_obj = $("[name='" + data.error_field[item] + "']").parent().addClass('has-error');
+                    });
+                    noty({
+                        text: data.error_message,
+                        type: "error",
+                        layout: 'topRight',
+                        timeout: 1
+                    });
+                } else {
+                    noty({
+                        text: '操作成功',
+                        type: "success",
+                        layout: 'topRight',
+                        timeout: 1
+                    });
+                    //Success Display
+                    $('.modal.in').modal('hide');
+                    oTable.fnReloadAjax();
+                }
+            }
+        });
+    });
+});
+</script>

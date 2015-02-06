@@ -1,0 +1,59 @@
+<% include ../public/header.ejs %>
+<section class="panel panel-default scrollable">
+        <header class="panel-heading"> <i class="fa fa-building-o"></i> 灰度发布客户列表 <i class="fa fa-info-sign text-muted" data-toggle="tooltip" data-placement="bottom" ></i> </header>
+        <div>
+          <table class="table table-striped b-t b-light" data-ride="datatables">
+            <thead>
+              <tr>
+                <th></th>
+                <th>客户ID</th>
+                <th>账户</th>
+                <th>客户名</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      
+<% include ../public/footer.ejs %>
+<script type="text/javascript">
+ + function($) {
+    $(function() {
+    $('[data-ride="datatables"]').each(function() {
+      oTable = $(this).dataTable({
+        "autoWidth": false,
+        "iDisplayLength": 50,
+        "processing": true,
+        "ajax": {
+          url: "/custom/dev_datatable"
+        },
+        "columns": [
+            { "data" : "action","width":"10%"},
+            { "data": "user_id","width": "10%"},
+            { "data": "user_email","width": "10%"},
+            { "data": "company_name","width": "10%" },
+        ],
+        "sPaginationType": "full_numbers",
+        "oLanguage": {
+          "sProcessing": "<img src='/images/datatable_loading.gif'>  努力加载数据中.",
+          "sLengthMenu": "每页显示 _MENU_ 条记录",
+          "sZeroRecords": "抱歉， 没有找到",
+          "sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
+          "sInfoEmpty": "没有数据",
+          "sInfoFiltered": "(从 _MAX_ 条数据中检索)",
+          "sZeroRecords": "没有检索到数据",
+          "sSearch": "模糊查询:  ",
+          "oPaginate": {
+            "sFirst": "首页",
+            "sPrevious": "前一页",
+            "sNext": "后一页",
+            "sLast": "尾页"
+          }
+        },
+      });
+    });
+  });
+}(window.jQuery); 
+</script>

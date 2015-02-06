@@ -1,0 +1,38 @@
+<% include ../public/header.ejs %>
+<% include ../public/public_header.ejs %>
+<% include ../public/menu.ejs %>
+<section id="content">
+  <section class="vbox">
+    <section class="scrollable wrapper">
+      <div class="panel b-a">
+        <div class="panel-heading"><i class="fa fa-lg fa-download"> </i> 存储管理</div>
+      <header class="panel-heading h6">总容量 : <%=total_size%>  M <br/><br/> 数据量: <%=total_count%> 条</header>
+      <hr/>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>索引</th>
+            <th>存储大小</th>
+            <th>数据量</th>
+            <th style="width:70px;"></th>
+          </tr>
+        </thead>
+        <tbody>
+        
+          <% for (var i in storage) { %>
+          <tr>
+            <td><%=storage[i].index%></td>
+            <td><%=storage[i].size%> M</td>
+            <td><%=storage[i].count%> 次</td>
+            <td class="text-right"><a href="/setup/deleteindex/<%=storage[i].indexreal%>" class="dropdown-toggle" ><i class="fa fa-eraser"></i></a></td>
+          </tr>
+          <% } %>
+       
+     
+        </tbody>
+      </table>
+    </div>
+  </section>
+</section>
+</section>
+<% include ../public/footer.ejs %>

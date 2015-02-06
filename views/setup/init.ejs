@@ -1,0 +1,170 @@
+<% include ../public/header.ejs %>
+<body class="">
+  <section class="vbox">
+    <section>
+      <section class="hbox stretch"> <!-- .aside -->
+      <!-- /.aside -->
+      <section id="content">
+        <section class="vbox">
+          <section class="scrollable padder">
+            <div class="m-b-md">
+              <h3 class="m-b-none">系统初始化</h3>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <form id="wizardform">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <ul class="nav nav-tabs font-bold">
+                        <li><a href="#step1" data-toggle="tab">完善注册信息</a></li>
+<!--                         <li><a href="#step2" data-toggle="tab">创建数据模型</a></li> -->
+                        <li><a href="#step2" data-toggle="tab">导入数据</a></li>
+                        <li><a href="#step3" data-toggle="tab">完成</a></li>
+                      </ul>
+                    </div>
+                    <div class="panel-body">
+                      <p>本向导将会知道您设置和使用系统笔记, 请按按部就班即可</p>
+                      <div class="line line-lg"></div>
+                      <h4>欢迎:<%=account%> 您的系统尚未初始化,请完成这个向导,以便迅速初始化系统 </h4>
+                      <div class="progress progress-xs m-t-md">
+                        <div class="progress-bar bg-success"></div>
+                      </div>
+                      <div class="tab-content">
+                        <div class="tab-pane" id="step1">
+                            <div class="form-group"  id='known_from'>
+                            <p class="m-t">获知渠道:</p>
+                            <select style="width:260px" class="select2"  name="known_from">
+                              <option value="朋友介绍" >朋友介绍</option>
+                              <option value="搜索引擎" >搜索引擎</option>
+                              <option value="线下活动" >线下活动</option>
+                              <option value="广告链接" >广告链接</option>
+                              <option value="客户经理" >客户经理</option>
+                              <option value="论坛社区" >论坛社区</option>
+                            </select>
+                        </div>
+                          <p>手机:</p>
+                          <input type="text" class="form-control"  name="user_phone" data-required="true" data-trigger="change"   placeholder="将用于帐号保护和紧急情况联系" value="<%=user_phone%>">
+                          <p>公司名:</p>
+                          <input type="text" class="form-control" name="company_name" data-trigger="change"  data-required="true"  placeholder="您的企业名称或者团体名称" value="<%=company_name%>">
+                          <p class="m-t">地址:</p>
+                          <input type="text" class="form-control" name="user_address" data-trigger="change"  data-required="true"  placeholder="方便我们为您寄送礼品和邮寄发票" value="<%=user_address%>">
+                          <p class="m-t">QQ:</p>
+                          <input type="text" class="form-control" name="user_qq" data-trigger="change" data-required="true"  placeholder="方便的话请告知,便于联系和通知" value="<%=user_qq%>">
+  
+
+                      </div>
+<!-- 
+                        <div class="tab-pane" id="step2">
+                          <p>创建数据模型:</p>
+                          <p>您了解使用GROK来匹配文本来数据来创建数据模型吗<i class="fa fa-question"></i> </p>
+                          <br/>
+                          <div class="form-group"  id='manager_select'>
+                            <label>系统内置数据模型:</label>
+                            <select style="width:260px" class="select2"  name="select_type">
+                              <option value="basic" >基本型</option>
+                              <option value="firewall" >防火墙</option>
+                              <option value="cisco" >CISCO</option>
+                              <option value="java" >JAVA</option>
+                              <option value="nagios" >NAGIOS</option>
+                              <option value="redis" >REDIS</option>
+                            </select>
+                          </div>
+                        </div> -->
+
+                        <div class="tab-pane" id="step2">
+                          <p>配置数据源:</p>
+                          <div class="form-group"  id='manager_select'>
+                            <label>选择数据类型:</label>
+                            <select style="width:260px" class="select2"  name="select_type">
+                              <option value="syslog" >Syslog</option>
+                              <option value="eventlog" >Eventlog</option>
+                              <option value="bash" >系统操作审计</option>
+                              <option value="nginx" >Nginx</option>
+                              <option value="apache" >Apache</option>
+                              <option value="custom" >自定义</option>
+                            </select>
+                          </div>
+<div id="syslog"  class="initpre" hidden>
+<pre>
+<%literal%>
+1.编辑Rsyslog配置文件
+vi /etc/rsyslog.conf
+2.添加配置
+$template logstack,"%TIMESTAMP% <%syslogfacility-text%.%syslogpriority-text%> %HOSTNAME% %syslogtag%<%/literal%>[<%=public_key%>]<%literal%>%msg:::sp-if-no-1st-sp%%msg:::drop-last-lf%\n"
+*.* @access.logstack.cn:514;logstack
+3.保存退出，重启服务
+/etc/init.d/rsyslog restart
+<%/literal%>
+</pre>
+</div>
+
+<div id="eventlog" class="initpre" hidden>
+<pre><code>
+<%literal%>
+1.访问Eventlog to Syslog官网下载Eventlog to Syslog程序: 
+http://code.google.com/p/eventlog-to-syslog/downloads/list
+按照您的系统下载对应的版本,目前支持到windows 2008 server
+2.安装EventLog to Syslog
+解压下载文件,将evtsys.exe复制到C:\Windows\System32 目录下
+开始菜单->运行->cmd
+输入命令
+evtsys.exe -i -h access.logstack.cn -p 514 -t WINDOWS-<%/literal%>[<%=public_key%>]<%literal%>
+提示Command completed successfully,表示完成安装
+3.启动系统服务
+开始菜单->运行->services.msc
+查找到Eventlog to syslog 这个服务,启动该服务
+<%/literal%>
+</code></pre>
+</div>
+
+<div id="bash" class="initpre" hidden>
+<pre><code>
+<%literal%>
+1.配置Rsyslog服务(如果已配置可以略过此步骤)
+vi /etc/rsyslog.conf
+2.添加到配置(如果已配置可以略过此步骤)
+$template logstack,"%TIMESTAMP% <%syslogfacility-text%.%syslogpriority-text%> %HOSTNAME% %syslogtag%<%/literal%>[<%=public_key%>]<%literal%>%msg:::sp-if-no-1st-sp%%msg:::drop-last-lf%\n"
+*.* @@access.logstack.cn:514;logstack
+3.添加到Bash全局配置文件
+vi /etc/bashrc
+function bash2syslog { echo -n "USER=$USER PWD=$PWD CMD=$BASH_COMMAND" | grep -v -e "echo -ne "| logger -t bash -p local5.notice -i ; }
+trap bash2syslog DEBUG
+4.保存退出，重启服务
+/etc/init.d/rsyslog restart
+<%/literal%>
+</code></pre>
+</div>
+
+
+<div id="custom" class="initpre" hidden>
+<pre><code>
+<%literal%>
+1.安装SevNote通用转发器
+/etc/init.d/rsyslog restart
+<%/literal%>
+</code></pre>
+</div>
+
+                        </div>
+                        <div class="tab-pane" id="step3">
+                          恭喜您!初始化完成，请点击完成继续。
+                        </div>
+                        <ul class="pager wizard m-b-sm">
+                          <li class="previous first" style="display:none;"><a href="#">第一步</a></li>
+                          <li class="previous"><a href="#">上一步</a></li>
+                          <li class="next last" style="display:none;" id="finish" ><a href="#">完成</a></li>
+                          <li class="next"><a href="#">下一步</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </section>
+        </section>
+      <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen" data-target="#nav"></a> </section>
+    </section>
+  </section>
+</section>
+<% include ../public/footer.ejs %>

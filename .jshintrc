@@ -1,0 +1,26 @@
+{
+    "validthis": true,
+    "laxcomma" : true,    // true: This option suppresses warnings about comma-first coding style:
+    "laxbreak" : true,
+    "browser"  : true,
+    "eqeqeq"   : false,    // true: Require triple equals (===) for comparison
+    "eqnull"   : true,    // true: Tolerate use of `== null`
+    "debug"    : true,    // true: This option suppresses warnings about the debugger statements in your code
+    "devel"    : true,
+    "curly"    : false,    // true: Require {} for every new block or scope
+    "boss"     : true,    // true: Tolerate assignments where comparisons would be expected
+    "expr"     : true,
+    "asi"      : true,    // true: This option suppresses warnings about missing semicolons
+    "sub"      : true,    // true: Tolerate using `[]` notation when it can still be expressed in dot notation
+    "noarg"    : true,    // true: Prohibit use of `arguments.caller` and `arguments.callee`
+    "forin"    : true,
+    "freeze"   : true,    // true: This options prohibits overwriting prototypes of native objects such as Array, Date and so on
+    "noempty"  : true,
+    "unused"   : false,
+    "maxdepth" : 3,
+    "shadow"   : true,
+    "proto"    : true,    // true: This option suppresses warnings about the __proto__ property
+    "notypeof" : true,
+    "multistr" : true,
+    "-W041"    : true    // Tolerate use '===' to compare with '0'
+}

@@ -1,0 +1,56 @@
+<body class="">
+  <section class="vbox">
+    <header class="bg-white-only lter header header-md navbar navbar-fixed-top-xs">
+      <div class="navbar-header aside bg-dark"> <a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen,open" data-target="#nav,html"> <i class="icon-list"></i> </a> <a href="#" class="navbar-brand text-lt"> <i class="fa fa-fw fa-pencil"></i> <img src="/public/images/logo.png" alt="." class="hide"> <span class="hidden-nav-xs m-l-sm">系统笔记 <span style="vertical-align:super; font-size:10px">TM</span></span> </a> <a class="btn btn-link visible-xs" data-toggle="dropdown" data-target=".user"> <i class="icon-settings"></i> </a> </div>
+      <ul class="nav navbar-nav hidden-xs">
+        <li> <a href="#nav,.navbar-header" data-toggle="class:nav-xs,nav-xs" class="text-muted"> <i class="fa fa-lg fa-indent text"></i> <i class="fa fa-lg fa-dedent text-active"></i> </a>
+<!--         <li> <a href="#" > 时间选择 <i class="fa fa-lg fa-sort-desc"></i></a></li> -->
+        <li  <% if (path !== '/analyze/logs'){ %> style="display:none" <% } %> >
+          <a  class="text-muted" href="/analyze/log_filter_modal" data-toggle="ajaxModal" title="选择过滤器"><i class="fa fa-lg fa-filter " ></i> 选择过滤器</a>
+        </li>
+        <li class="hidden-sm hidden-md" <% if (path !== '/analyze/logs'){ %> style="display:none" <% } %>>
+          <a  class="text-muted" href="#"  class="dropdown-toggle" data-toggle="dropdown" title="数据快照"><i class="fa fa-lg fa-save"></i> 另存为</a>
+          <ul class="dropdown-menu text-left">
+            <li><a href="/analyze/log_snapshot_modal" data-toggle="ajaxModal"  ><i class="fa fa-lg fa-camera"></i>  数据快照</a></li>
+            <li><a href="/alert/create_alert_modal" data-toggle="ajaxModal"><i class="fa fa-lg fa-bell"></i> 告警</a></li>
+            <li><a href="/report/create_report_modal" data-toggle="ajaxModal"><i class="fa fa-lg fa-bar-chart"></i> 报表</a></li>
+          </ul>
+        </li>
+      </ul>
+      <div class="navbar-form navbar-left input-s-lg m-t m-l-n-xs hidden-xs" <% if (path !== '/console/dashboard'){ %> style="display:none" <% } %>>
+        <div class="form-group">
+          <div class="input-group"> <span class="input-group-btn">
+            <button type="submit" class="btn btn-sm bg-white btn-icon rounded"><i class="fa fa-search"></i></button>
+            </span>
+            <input type="text" class="form-control input-sm no-border rounded"  id="capture"  placeholder="捕捉模式">
+          </div>
+        </div>
+      </div>
+      <div class="navbar-form navbar-left input-s-lg m-t m-l-n-xs hidden-xs" <% if (path !== '/analyze/logs'){ %> style="display:none" <% } %> >
+        <div class="form-group">
+          <div class="input-group"> <span class="input-group-btn" >
+            <button type="submit" class="btn btn-sm bg-white btn-icon rounded"><i class="fa fa-search"></i></button>
+            </span>
+            <input type="text" class="form-control input-sm no-border rounded"  id="searchinput"  placeholder="模糊查找">
+          </div>
+        </div>
+      </div>
+      <div class="navbar-right ">
+        <ul class="nav navbar-nav m-n hidden-xs nav-user user">
+          <li class="hidden-sm hidden-md"> <a href="/module/list" class="dropdown-toggle lt"> <i class="fa fa-lg fa-database"> </i> 数据模型</a>
+          </li>
+          <li class="hidden-sm hidden-md"> <a href="/setup/import_list" class="dropdown-toggle lt"> <i class="fa fa-lg fa-cloud-upload"> </i> 添加数据</a>
+          </li>
+          <li class="hidden-sm hidden-md"> <a href="http://forum.sevnote.com" target="_blank" class="dropdown-toggle lt"> <i class="fa fa-lg fa-home"> </i> 开发者社区</a>
+          </li>
+          <li class="dropdown"> <a href="#" class="dropdown-toggle bg clear" data-toggle="dropdown"> <span class="thumb-sm avatar pull-right m-t-n-sm m-b-n-sm m-l-sm"> <img src="<%=avatars%>" alt="..."> </span><%=account%><b class="caret"></b> </a>
+            <ul class="dropdown-menu animated fadeInRight">
+              <li> <a href="/setup/profile">账户</a> </li>
+              <li> <a href="/setup/help">帮助</a> </li>
+              <li class="divider"></li>
+              <li> <a href="/logout" data-toggle="ajaxModal" >注销</a> </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </header>

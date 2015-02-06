@@ -1,0 +1,59 @@
+<% include ../public/header.ejs %>
+<% include ../public/public_header.ejs %>
+<% include ../public/menu.ejs %>
+<section id="content">
+	<section class="vbox">
+		<section class="scrollable wrapper">
+			<div class="panel b-a">
+				<div class="panel-heading b-b"><i class="fa fa-lg fa-lg fa-database"> </i> 创建数据模型</div>
+				<div class="panel-body">
+	<h5>最近发现的未定义数据源:</h5>
+			<ul class="list-group alt old_log" style="font-size:14px">
+			</ul>
+			 <ul class="pagination pagination-sm m-t-none m-b-none">
+			 	<li><a   href="/setup/list_all_custom" data-toggle="ajaxModal" title="显示最近500条为匹配日志"><i class="fa fa-list"></i></a></li>
+                      <li><a href="#"  id="chose_custom" title="选择另一条未匹配数据"><i class="fa fa-chevron-right"></i></a></li>
+                    </ul>
+					<div class="form-group" id="tutorial_input">
+						<label>源数据样例:</label>
+						<textarea class="form-control" name="input_source" style="font-size:14px" ></textarea>
+					</div>
+					<div class="form-group"  id="tutorial_pattern">
+						<label>GROK匹配规则:</label>
+						<textarea class="form-control" name="pattern" style="font-size:14px"></textarea>
+					</div>
+					<p></p><br/>
+					<div class="form-group"  >
+						<button type="submit" id="check_match" class="btn bg-info" disabled>确定</button>
+						<button type="submit" id="reset" class="btn bg-dark">重置</button>
+						&nbsp;&nbsp;
+						<small><a href="http://docs.sevnote.com/grok" target="_blank">如何试用GROK进行自定义数据源匹配?</a></small>
+					</div>
+					<div id="add_pattern" hidden>
+					<div class="form-group"  >
+						<label>规则名称:</label>
+						<input type="text" name="PatternName" class="form-control">
+						<label>日志类型:</label>
+						<input type="text" name="Type" class="form-control">
+					</div>
+					<div class="form-group"  >
+					<button type="submit" id="add" class="btn bg-success" disabled>确定添加规则</button>
+					</div>
+					</div>
+					<div id="output" hidden>
+						<p>匹配内容预览:</p>
+					<pre id="grok_output"><code></code></pre>
+					</div>
+				</div>
+			</div>
+			<div class="panel b-a" hidden id="pattern-file">
+				<div class="panel-heading b-b"><i class="fa fa-lg fa-lg fa-file-code-o "> </i> 匹配规则</div>
+				<div class="panel-body">
+					<pre id="pattern-file-content"></pre>
+				</div>
+			</div>
+		</section>
+<a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen" data-target="#nav"></a>
+	</section>
+</section>
+<% include ../public/footer.ejs %>

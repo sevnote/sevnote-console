@@ -1,0 +1,1 @@
+cmd_Release/obj.target/deps/libexpat/libexpat.a := rm -f Release/obj.target/deps/libexpat/libexpat.a && ar crsT Release/obj.target/deps/libexpat/libexpat.a Release/obj.target/expat/deps/libexpat/lib/xmlparse.o Release/obj.target/expat/deps/libexpat/lib/xmltok.o Release/obj.target/expat/deps/libexpat/lib/xmlrole.o

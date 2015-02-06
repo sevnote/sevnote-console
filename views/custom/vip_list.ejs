@@ -1,0 +1,73 @@
+<% include ../public/header.ejs %>
+<section class="panel panel-default scrollable">
+<header class="panel-heading"> <i class="fa fa-building-o"></i> 大客户维护 <i class="fa fa-info-sign text-muted" data-toggle="tooltip" data-placement="bottom" ></i> </header>
+<div>
+  <table class="table b-t b-light" id="datatable">
+    <thead>
+      <tr>
+        <th style="width:15%"></th>
+        <th style="width:15%">客户名</th>
+        <th style="width:12%">账户</th>
+        <th style="width:10%">类型</th>
+        <th style="width:10%">种类</th>
+        <th style="width:10%">行业</th>
+        <th style="width:10%">姓名</th>
+        <th style="width:10%">职位</th>
+        <th style="width:10%">电话</th>
+        <th style="width:10%">QQ群</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</div>
+</section>
+</section>
+</section>
+<a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen" data-target="#nav"></a> </section>
+</section>
+<% include ../public/footer.ejs %>
+<script type="text/javascript">
++ function($) {
+    $(function() {
+        $('#datatable').each(function() {
+            var oTable = $(this).dataTable({
+                "bPaginate": false,
+                "stateSave": false,
+                "processing": false,
+                "serverSide": false,
+                "ajax": {
+                    'url': "/custom/vip_datatables",
+                    'type': "POST",
+                },
+                "order": [
+                    [1, "desc"]
+                ],
+                "columns": [
+                    { "data" : "action","width": "5%"},
+                    { "data": "name" },
+                    { "data": "email" },
+                    { "data": "account_type"},
+                    { "data": "type" },
+                    { "data": "industry" },
+                    { "data": "user_name" },
+                    { "data": "user_position" },
+                    { "data": "phone" },
+                    { "data": "qq" }
+              ],
+            });
+
+            $('#datatable tbody').on('click', 'tr', function() {
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                } else {
+                    oTable.$('tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                }
+            });
+            new $.fn.dataTable.FixedHeader(oTable);
+        });
+    });
+}(window.jQuery);
+</script>
+

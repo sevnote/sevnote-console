@@ -1,0 +1,23 @@
+<% include ../public/header.ejs %>
+<% include ../public/public_header.ejs %>
+<% include ../public/menu.ejs %>
+<section id="content">
+    <section class="vbox">
+        <section class="scrollable wrapper w-f bg-white-only" id="dashboard">
+            <ul class="list-group alt old_log">
+                 <li class="list-group-item" id="loading" ><img src="/public/images/log_wait.gif"> </li>
+            </ul>
+        </section>
+        <footer class="footer bg-light" style="display:inline;  ">
+            <p>
+            <h6 style=" display : inline"><span class='label bg-dark current_filter_count'>读取到 0 条记录</span></h6>
+            <h6 style=" display : inline"><span class='label bg-danger current_filter_key'>捕捉关键字: *</span></h6>
+            <h6 style=" display : inline"><span class='label bg-dark current_filter_type'>syslog</span></h6>
+            <h6 style=" display : inline"><span class='label bg-dark per_event'>每秒载入: 0.0 次事件</span></h6>
+            <a href="#" class="pause_run btn btn-s-md btn-success pull-right"><i class="fa fa-pause"></i>  <b id="time_elapsed"></b></a>
+            </p>     
+        </footer>
+    </section>
+<a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen" data-target="#nav"></a> </section>
+</section>
+<% include ../public/footer.ejs %>

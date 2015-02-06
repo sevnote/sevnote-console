@@ -1,0 +1,38 @@
+<% include ../public/header.ejs %>
+<% include ../public/public_header.ejs %>
+<% include ../public/menu.ejs %>
+<section id="content">
+	<section class="vbox">
+		<section class="scrollable padder">
+			<div class="m-b-md"></div>
+			<section class="panel panel-default">
+			<header class="panel-heading"> 快照列表 <i class="fa fa-info-sign text-muted" data-toggle="tooltip" data-placement="bottom" data-title="ajax to load the data."></i> </header>
+			<div class="table-responsive">
+				<table class="table table-striped m-b-none" data-ride="datatables" id="datatables">
+					<thead>
+						<tr>
+							<th style="width:5%"></th>
+							<th style="width:10%">快照名</th>
+							<th style="width:10%">描述</th>
+							<th style="width:60%">搜索条件</th>
+							<th style="width:15%">快照时间</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% for (var i in result) { %>
+						<tr>
+							<th style="width:5%"><a href="/analyze/restore/<%=result[i].id%>" ><button class="btn btn-success">还原</button></a></th>
+							<th style="width:10%"><%=result[i].name%></th>
+							<th style="width:10%"><%=result[i].description%></th>
+							<th style="width:60%"><p><%=result[i].filter%></p></th>
+							<th style="width:15%"><%=result[i].createdate%></th>
+						</tr>
+						<% } %>
+					</tbody>
+				</table>
+			</div>
+		</section>
+	</section>
+</section>
+</section>
+<% include ../public/footer.ejs %>

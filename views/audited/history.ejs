@@ -1,0 +1,38 @@
+<% include ../public/header.ejs %>
+<% include ../public/public_header.ejs %>
+<% include ../public/menu.ejs %>
+<section id="content">
+	<section class="vbox">
+		<section class="scrollable padder">
+			<div class="m-b-md">
+				
+			</div>
+			<section class="panel panel-default">
+			<header class="panel-heading"> <i class="fa fa-keyboard-o"> 操作列表 </i></header>
+			<div class="table-responsive">
+				<table class="table" data-ride="datatables" id="datatables">
+					<thead>
+						<tr>
+							<th style="width:15%">操作时间</th>
+							<th style="width:10%">操作用户</th>
+							<th style="width:15%">操作目录</th>
+							<th style="width:60%">操作内容</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% for (var i in result) { %>
+						<tr>
+							<th style="width:15%"><%=result[i].time%></th>
+							<th style="width:10%"><%=result[i].user%></th>
+							<th style="width:15%"><%=result[i].path%></th>
+							<th style="width:60%"><%=result[i].cmd%></th>
+						</tr>
+						<% } %>
+					</tbody>
+				</table>
+			</div>
+		</section>
+	</section>
+</section>
+</section>
+<% include ../public/footer.ejs %>

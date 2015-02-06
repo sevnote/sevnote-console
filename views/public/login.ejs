@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" class="app">
+<head>
+<meta charset="utf-8" />
+<title>系统笔记 | 机器大数据分析系统</title>
+<meta name="description" content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<link rel="shortcut icon" href="/public/images/sevnote.ico">
+<link rel="stylesheet" href="/public/js/jPlayer/jplayer.flat.css" type="text/css" />
+<link rel="stylesheet" href="/public/css/app.v1.css" type="text/css" />
+<link rel="stylesheet" href="/public/css/font-awesome.min.css">
+
+<!--[if lt IE 9]> <script src="js/ie/html5shiv.js"></script> <script src="js/ie/respond.min.js"></script> <script src="js/ie/excanvas.js"></script> <![endif]-->
+</head>
+<body class="bg-dark dker">
+<section id="content" class="m-t-lg wrapper-md animated fadeInUp">
+  <div class="container aside-xl"> <a class="navbar-brand block" href="/"><span  class="h1 font-bold " >系统笔记 <span style="vertical-align:super; font-size:10px">TM</span></span></a>
+    <section class="m-b-lg" >
+      <header class="wrapper text-center"> <strong >机器大数据分析系统</strong> </header>
+      <p class="text-muted text-center" id="title" hidden><small></small></p>
+      <form action="#" id="form1" method="POST">
+        <div class="form-group">
+          <input type="username" placeholder="邮箱"  id="username" name="username" class="form-control rounded input-lg text-center no-border" id="username" autofocus>
+        </div>
+        <div class="form-group">
+          <input type="password" placeholder="密码" name="password" class="form-control rounded input-lg text-center no-border">
+        </div>
+        <button type="submit"  id="button" class="btn btn-lg btn-dark lt b-white b-2x btn-block btn-rounded" style="outline:none"><i class="fa fa-arrow-right  pull-right"></i><span class="m-r-n-lg">登录</span></button>
+        <div class="line line-dashed">
+        </div>
+        <Br/>
+      </form>
+    </section>
+  </div>
+</section>
+<!-- footer -->
+<footer id="footer">
+  <div class="text-center padder">
+    <p> <small>系统笔记SEVNOTE.COM &copy; 2014 版权所有<br>
+      </small> </p>
+  </div>
+</footer>
+<!-- / footer --> <!-- Bootstrap --> <!-- App --> 
+<script src="/public/js/jquery.js"></script>
+<script src="/public/js/jquery-ui.js"></script>
+</body>
+</html>
+<script type="text/javascript">
+    $("#form1").submit(function() {
+    $("#title").hide();
+    $.ajax({
+      url: "/login",
+      type: "post",
+      data: $(this).serialize(),
+      dataType: "json",
+      success: function(data) {
+        console.log(data)
+        if (data.response == "success") {
+          setTimeout("window.location.href =\"" + data.more + "\"", 1);
+        }else{
+            $("#title").html(data.msg);
+            $("#title").show();
+            $( "#title" ).effect( "shake",null,"slow" );
+        }
+      }
+    });
+    return false;
+  });
+</script>

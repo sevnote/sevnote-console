@@ -1,0 +1,107 @@
+<% include ../public/header.ejs %>
+<% include ../public/public_header.ejs %>
+<% include ../public/menu.ejs %>
+<section id="content">
+	<section class="vbox">
+		<section class="scrollable wrapper">
+			<div class="panel b-a">
+				<div class="panel-heading b-b"><i class="fa fa-lg fa-cloud-upload"> </i> 导入数据</div>
+				<div class="panel-body">
+					<article class="media">
+					<div class="pull-left"> <span class="fa-stack fa-lg"> <i class="fa fa-circle fa-stack-2x"></i> <i class="fa fa-linux fa-stack-1x text-white"></i> </span> </div>
+					<div class="media-body"> <a href="#syslog_setup" class="h4" id="syslog">SYSLOG 数据源</a> <small class="block m-t-xs">导入SYSLOG类型的数据源,使用系统内置的日志发送装置即可</small>  </div>
+					<hr>
+					<div class="pull-left setup_tutorial" id="syslog_setup" hidden>
+<pre><code>
+<%literal%>
+1.编辑Rsyslog配置文件
+vi /etc/rsyslog.conf
+2.添加配置
+$template logstack,"%TIMESTAMP% <%syslogfacility-text%.%syslogpriority-text%> %HOSTNAME% %syslogtag%<%/literal%>[<%=public_key%>]<%literal%>%msg:::sp-if-no-1st-sp%%msg:::drop-last-lf%\n"
+*.* @access.logstack.cn:514;logstack
+3.保存退出，重启服务
+/etc/init.d/rsyslog restart
+<%/literal%>
+</code></pre>
+						<small>注意黏贴的时候文件是否换行,请确保配置文件的$template不换行</small>
+					</div>
+					</article>
+					<article class="media">
+					<div class="pull-left"> <span class="fa-stack fa-lg"> <i class="fa fa-circle fa-stack-2x"></i> <i class="fa fa-windows fa-stack-1x text-white"></i> </span> </div>
+					<div class="media-body"> <a href="#eventlog_setup" class="h4" id="eventlog">EVENTLOG 数据源</a> <small class="block m-t-xs">导入EVENTLOG的数据</small>  </div>
+					<hr>
+					<div class="pull-left setup_tutorial" id="eventlog_setup" hidden>
+<pre><code>
+<%literal%>
+1.访问Eventlog to Syslog官网下载Eventlog to Syslog程序: 
+http://code.google.com/p/eventlog-to-syslog/downloads/list
+按照您的系统下载对应的版本,目前支持到windows 2008 server
+2.安装EventLog to Syslog
+解压下载文件,将evtsys.exe复制到C:\Windows\System32 目录下
+开始菜单->运行->cmd
+输入命令
+evtsys.exe -i -h access.logstack.cn -p 514 -t WINDOWS-<%/literal%>[<%=public_key%>]<%literal%>
+提示Command completed successfully,表示完成安装
+3.启动系统服务
+开始菜单->运行->services.msc
+查找到Eventlog to syslog 这个服务,启动该服务
+<%/literal%>
+</code></pre>
+					</div>
+					</article>
+					<article class="media">
+					<div class="pull-left"> <span class="fa-stack fa-lg"> <i class="fa fa-circle fa-stack-2x"></i> <i class="fa fa-retweet  fa-stack-1x text-white"></i> </span> </div>
+					<div class="media-body"> <a href="#" class="h4" id="web">WEB网站 数据源</a> <small class="block m-t-xs">配置Nginx，Apache,IIS的日志到服务端提供解析</small>  </div>
+					<hr>
+					<div class="pull-left setup_tutorial" id="web_setup" hidden>
+						<a href="/download" class="btn btn-primary">下载SevNote 转发器<a/><br/><br/>
+<pre><code>
+<%literal%>
+1.配置SevNot Generic Forward
+vim etc/config.json
+
+<%/literal%>
+</code></pre>
+						<small>1.注意黏贴的时候文件是否换行,请确保配置文件的$template不换行 2.注意修改完成后重新登录一下,或者执行source /etc/bashrc</small>
+					</div>
+					</article>
+					<article class="media">
+					<div class="pull-left"> <span class="fa-stack fa-lg"> <i class="fa fa-circle fa-stack-2x"></i> <i class="fa fa-bold fa-stack-1x text-white"></i> </span> </div>
+					<div class="media-body"> <a href="#bash_setup" class="h4" id="bash">运维操作审计</a> <small class="block m-t-xs">启动运维操作审计,包含操作者,操作目录，操作命令</small>  </div>
+					<hr>
+					<div class="pull-left setup_tutorial" id="bash_setup" hidden>
+<pre><code>
+<%literal%>
+1.配置Rsyslog服务(如果已配置可以略过此步骤)
+vi /etc/rsyslog.conf
+2.添加到配置(如果已配置可以略过此步骤)
+$template logstack,"%TIMESTAMP% <%syslogfacility-text%.%syslogpriority-text%> %HOSTNAME% %syslogtag%<%/literal%>[<%=public_key%>]<%literal%>%msg:::sp-if-no-1st-sp%%msg:::drop-last-lf%\n"
+*.* @@access.logstack.cn:514;logstack
+3.添加到Bash全局配置文件
+vi /etc/bashrc
+function bash2syslog { echo -n "USER=$USER PWD=$PWD CMD=$BASH_COMMAND" | grep -v -e "echo -ne "| logger -t bash -p local5.notice -i ; }
+trap bash2syslog DEBUG
+4.保存退出，重启服务
+/etc/init.d/rsyslog restart
+<%/literal%>
+</code></pre>
+						<small>1.注意黏贴的时候文件是否换行,请确保配置文件的$template不换行 2.注意修改完成后重新登录一下,或者执行source /etc/bashrc</small>
+					</div>
+					</article>
+					<div class="line pull-in"></div>
+					<article class="media">
+					<div class="pull-left"> <span class="fa-stack fa-lg"> <i class="fa fa-circle fa-stack-2x text-info"></i> <i class="fa fa-paper-plane fa-stack-1x text-white"></i> </span> </div>
+					<div class="media-body"> <a href="#custom_setup" class="h4" id="custom">自定义数据源</a> <small class="block m-t-xs">安装SevNote的通用转发器来发送任意的自定义格式的日志文件</small> </div>
+					<hr/>
+					<div class="pull-left setup_tutorial" id="custom_setup" hidden>
+<a href="/download" class="btn btn-primary">下载SevNote 转发器<a/>
+
+					</div>
+					</article>
+				</div>
+			</div>
+		</section>
+		<a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen" data-target="#nav"></a>
+	</section>
+</section>
+<% include ../public/footer.ejs %>

@@ -1,0 +1,146 @@
+<% include ../public/header.ejs %>
+<% include ../public/public_header.ejs %>
+<% include ../public/menu.ejs %>
+<!-- Button trigger modal -->
+<section id="content">
+	<section class="vbox">
+		<section class="scrollable wrapper w-f bg-white-only" id="main">
+			<div id="dtBox"></div>
+			<a  href="#" class="btn bg-dark btn-sm"  data-toggle="modal" data-target="#datepicker" id="datepickertext" >时间选择 <span class="caret"></span></a>
+			<div id="chart"  class="dropdown"style="height:300px;text-align:center;">
+			</div>
+			<div id="piechart"  class="dropdown"style="min-height:300px;text-align:center;" hidden>
+			</div>
+			<div id="histogramchart"  class="dropdown"style="height:300px;text-align:center;" hidden>
+			</div>
+			<ul class="list-group alt old_log">
+			</ul>
+			<!-- Modal -->
+			<div class="modal fade" id="datepicker" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-body" style="padding:0px">
+							<div class="panel-group" id="accordion">
+								<div class="panel">
+									<div class="panel-heading" > <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse1">预设时间<b class="caret"></b></a> </div>
+									<div id="collapse1" class="panel-collapse collapse in">
+										<div class="panel-body text-sm">
+											<div class="row">
+												<div class="col-md-4">
+													<dl>
+														<dt>实时数据</dt>
+														<dd><a href="/console/dashboard" >即时数据<a/></dd>
+													</dl>
+												</div>
+												<div class="col-md-4">
+													<dl>
+														<dt>时间相对</dt>
+														<dd><a href="#" class="preinstall">前 15 分钟<a/></dd>
+														<dd><a href="#" class="preinstall">前 60 分钟<a/></dd>
+														<dd><a href="#" class="preinstall">前 4 小时<a/></dd>
+														<dd><a href="#" class="preinstall">前 24 小时<a/></dd>
+														<dd><a href="#" class="preinstall">前 7 天<a/></dd>
+														<dd><a href="#" class="preinstall">前 30 天<a/></dd>
+													</dl>
+												</div>
+												<div class="col-md-4">
+													<dl>
+														<dt>其他</dt>
+														<dd><a href="#" class="preinstall">所有时间</a></dd>
+													</dl>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="panel">
+										<div class="panel-heading" > <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse3">日期范围<b class="caret"></b></a> </div>
+										<div id="collapse3" class="panel-collapse collapse ">
+											<div class="panel-body text-sm">
+												<div class="row">
+													<div class="col-md-6">
+														<select name='dateprefix' class="form-control">
+															<option value="before">之前</option>
+															<option value="after">之后</option>
+														</select>
+													</div>
+													<div class="col-md-6">
+														<input type="text" data-field="datetime" name="datesuffix" class="form-control" readonly placeholder="点击选择时间">
+														<br/>
+														<button class="btn btn-default" id="datepositionsubmit">应用</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="panel">
+										<div class="panel-heading" > <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse4">日期与时间范围<b class="caret"></b></a> </div>
+										<div id="collapse4" class="panel-collapse collapse">
+											<div class="panel-body text-sm">
+												<div class="row">
+													<div class="col-md-6">
+														<p>最早</p>
+														<input type="text" data-field="datetime"  name="start_time" class="form-control" readonly placeholder="点击选择时间">
+													</div>
+													<div class="col-md-6">
+														<p>最晚</p>
+														<input type="text" data-field="datetime" name="end_time" class="form-control" readonly placeholder="点击选择时间">
+														<br/>
+														<button class="btn btn-default" id="daterangersubmit">应用</button>
+													</div>
+												</div>
+											</div>
+											
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<footer class="footer bg-light">
+			<p>
+			<span class='label bg-dark current_filter_count'></span>
+			<span class='label bg-dark current_filter_key'></span>
+			<span class='label bg-dark current_filter_type'></span>
+			</p>
+			<ul class="pagination pagination-sm pull-right">
+				<li><a href="#" id="prev" data-toggle="tooltip" data-placement="left" title="前一页"><i class="fa fa-chevron-left"></i></a></li>
+				<li><a href="#" id="next" data-toggle="tooltip" data-placement="top" title="后一页"><i class="fa fa-chevron-right"></i></a></li>
+			</ul>
+		</footer>
+	</section>
+</section>
+<% include ../public/footer.ejs %>
+<script type="text/template" id="filter-modal">
+<div class="modal fade filter-modal" id="{{filter}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog" style="70%">
+					<div class="modal-content">
+						<div class="modal-header">
+							<div class="btn-group">
+								<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" >分析 <span class="caret"></span></button>
+								<ul class="dropdown-menu" >
+									<li><a href="#" id="{{filter}}-pie" class="pie"><i class="fa fa-pie-chart"></i> 饼状图TOP10</a></li>
+									<li><a href="#" id="{{filter}}-histogram" class="histogram"><i class="fa fa-bar-chart"></i> 柱状图TOP10</a></li>
+								</ul>
+							</div>
+							<button type="button" class="btn btn-dark pull-right" data-dismiss="modal">关闭</button>
+						</div>
+						<div class="modal-body">
+							<table class="table table-striped m-b-none" id="filter_view">
+								<thead>
+									<tr>
+										<th>项目</th>
+										<th>统计</th>
+										<th style="width:70px;"></th>
+									</tr>
+								</thead>
+								<tbody class='filter_body'>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+ </script>

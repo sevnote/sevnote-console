@@ -1,0 +1,45 @@
+<% include ../public/header.ejs %>
+<% include ../public/public_header.ejs %>
+<% include ../public/menu.ejs %>
+<section id="content">
+	<section class="vbox">
+		<section class="scrollable padder">
+			<div class="m-b-md">
+				<Br/>
+				<a class="btn btn-primary" href="/module/create_module">创建数据模型</a>
+			</div>
+			<section class="panel panel-default">
+			<header class="panel-heading"><i class="fa fa-lg fa-database"> </i>  数据模型 <i class="fa fa-info-sign text-muted" data-toggle="tooltip" data-placement="bottom" data-title="ajax to load the data."></i> </header>
+			<div class="table-responsive">
+				<table class="table" data-ride="datatables" id="datatables">
+					<thead>
+						<tr>
+							<th style="width:15%"></th>
+							<th style="width:40%">类型</th>
+							<th style="width:30%">匹配名</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% for (var i in result) { %>
+						<tr>
+							<th style="width:15%">
+								<div class="btn-group">
+									<button class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">操作<span class="caret"></span></button>
+									<ul class="dropdown-menu">
+										<li><a href="#">搜索</a></li>
+										<li><a href="#" data-toggle="dropdown">查看匹配语法</a></li>
+									</ul>
+								</div>
+							</th>
+							<th style="width:40%"><%=result[i].type%></th>
+							<th style="width:30%"><%=result[i].pattern%></th>
+						</tr>
+						<% } %>
+					</tbody>
+				</table>
+			</div>
+		</section>
+	</section>
+</section>
+</section>
+<% include ../public/footer.ejs %>

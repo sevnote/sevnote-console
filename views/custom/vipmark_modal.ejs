@@ -1,0 +1,95 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-body">
+            <div class='form-group'>
+                <% if(vip_mark === 0) { %>
+                <div class="radio i-checks">
+                    <label>
+                        <input type="radio" name="vip_mark" value="1" >
+                    <i></i> 大客户 </label>
+                </div>
+                <div class="radio i-checks">
+                    <label>
+                        <input type="radio" name="vip_mark" value="0" checked>
+                    <i></i> 普通客户 </label>
+                </div>
+                <% } %>
+                <% if(vip_mark === 1) { %>
+                <div class="radio i-checks">
+                    <label>
+                        <input type="radio" name="vip_mark" value=1 checked>
+                    <i></i> 大客户 </label>
+                </div>
+                <div class="radio i-checks">
+                    <label>
+                        <input type="radio" name="vip_mark" value=0 >
+                    <i></i> 普通客户 </label>
+                </div>
+                <% } %>
+                <input type="hidden" value="<%=local_id %>" name="local_id">
+                <input type="hidden" value="<%=online_id %>" name="online_id">
+            </div>
+            <div class='form-group'>
+                <textarea class="form-control" placeholder="修改客户标签理由" style="resize: none;" name="reason"></textarea>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button   id="submit" class="btn  btn-success">提交</button>
+            <button type="button" class="btn btn-dark" data-dismiss="modal">关闭</button>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/js/noty/packaged/jquery.noty.packaged.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#submit").click(function(){
+    var inputs = $("input:radio:checked").add($("input:text")).add($("input:hidden")).add($("select")).add($("textarea")).add($('.more-tag:selected')),
+            str = "";
+        var obj = {};
+        $.each(inputs, function(index) {
+            if (this.name != '' && this.value != '') {
+                var value = this.value;
+                if ($(this).attr('class') == 'select2 full-width-fix more-tag select2-offscreen') {
+                    var foo = [];
+                    $('.more-tag :selected').each(function(i, selected) {
+                        foo[i] = $(selected).attr('value');
+                    });
+                    var value = foo;
+                }
+                obj[this.name] = value
+            }
+        });
+        delete obj.undefined;
+        $.ajax({
+            type: 'POST',
+            data: JSON.stringify(obj),
+            contentType: 'application/json',
+            url: '/custom/vipmark_do',
+            success: function(data) {
+                if (data.ret_code === 1000) {
+                    $.each(data.error_field, function(item) {
+                        var error_obj = $("[name='" + data.error_field[item] + "']").focus();
+                        var error_obj = $("[name='" + data.error_field[item] + "']").parent().addClass('has-error');
+                    });
+                    noty({
+                        text: data.error_message,
+                        type: "error",
+                        layout: 'center',
+                        timeout: 1
+                    });
+                } else {
+                    noty({
+                        text: '操作成功',
+                        type: "success",
+                        layout: 'center',
+                        timeout: 1
+                    });
+                    //Success Display
+                    $('.modal.in').modal('hide'); 
+                    oTable.fnReloadAjax();
+                }
+            }
+        });
+    });
+});
+</script>

@@ -1,0 +1,226 @@
+<% include ../public/header.ejs %>
+<section class="panel panel-default scrollable">
+<header class="panel-heading"> <i class="fa fa-building-o"></i> 客户管理 <i class="fa fa-info-sign text-muted" data-toggle="tooltip" data-placement="bottom" ></i> </header>
+<div>
+    <table class="table b-t b-light"  id="datatables">
+        <thead>
+            <tr>
+                <th></th>
+                <th>ID</th>
+                <th>客户名</th>
+                <th>账户</th>
+                <th>级别</th>
+                <th>类型</th>
+                <th>行业</th>
+                <th>获知渠道</th>
+                <th>备注</th>
+            </tr>
+        </thead>
+        <thead id="thead2">
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+</section>
+<% include ../public/footer.ejs %>
+<script type="text/javascript">
+
++ function($) {
+    $(function() {
+        oTable = $("#datatables").dataTable({
+            "ajax": {
+                'url': "/custom/datatable",
+                "type": "POST"
+            },
+            "order": [
+                [1, "desc"]
+            ],
+            "columnDefs": [
+            {
+                "render": function ( data, type, row ) {
+                    if(data === '个人'){
+                        return "<span class='label bg-dark'>"+data+"</span>";
+                    }else{
+                        return "<span class='label bg-primary'>"+data+"</span>";
+                    }
+                    
+                },
+                "targets": 5
+            },{
+                "render": function ( data, type, row ) {
+                    if(data === '普通客户'){
+                        return "<span class='label bg-dark'>"+data+"</span>";
+                    }else{
+                        return "<span class='label bg-danger'>"+data+"</span>";
+                    }
+                    
+                },
+                "targets": 4
+            }],
+            "columns": [{
+                    "data": "action",
+                    "width": "5%",
+                    "bSortable": false
+                }, {
+                    "data": "online_id",
+                    "width": "5%"
+                }, {
+                    "data": "name",
+                    "width": "10%",
+                    "bSortable": false
+                }, {
+                    "data": "email",
+                    "width": "8%",
+                    "bSortable": false
+                }, {
+                    "data": "level",
+                    "width": "5%",
+                    "bSortable" :false
+                }, {
+                    "data": "type",
+                    "width": "5%",
+                    "bSortable":false
+                }, {
+                    "data": "industry",
+                    "width": "6%",
+                    "bSortable": false
+                }, 
+                {"data": "known_from","width": "8%","bSortable": false}, 
+                { "data": "ps","width": "25%","bSortable": false },
+            ]})
+            .yadcf([{
+                column_number: 4,
+                data: [{
+                    'label': "普通客户",
+                    'value': 0
+                }, {
+                    'label': "大客户",
+                    'value': 1
+                }],
+                filter_reset_button_text: false
+            }, {
+                column_number: 5,
+                data: [{
+                    'label': "企业",
+                    'value': 0
+                }, {
+                    'label': "个人",
+                    'value': 1
+                }],
+                filter_reset_button_text: false
+            }, {
+                column_number: 6,
+                data: [{
+                    'label': "电子商务",
+                    'value': 1000
+                }, {
+                    'label': "手游",
+                    'value': 2000
+                }, {
+                    'label': "页游",
+                    'value': 3000
+                }, {
+                    'label': "数据分析",
+                    'value': 4000
+                }, {
+                    'label': "移动APP",
+                    'value': 5000
+                }, {
+                    'label': "网站",
+                    'value': 6000
+                }, {
+                    'label': "SAAS",
+                    'value': 7000
+                }, {
+                    'label': "端游",
+                    'value': 8000
+                }, {
+                    'label': "工具软件",
+                    'value': 9000
+                }, {
+                    'label': "教育培训",
+                    'value': 10000
+                }, {
+                    'label': "金融服务",
+                    'value': 11000
+                }, {
+                    'label': "生活娱乐",
+                    'value': 12000
+                }, {
+                    'label': "智能硬件",
+                    'value': 13000
+                }, {
+                    'label': "旅游户外",
+                    'value': 14000
+                }, {
+                    'label': "广告营销",
+                    'value': 15000
+                }, {
+                    'label': "媒体资讯",
+                    'value': 16000
+                }, {
+                    'label': "社交网络",
+                    'value': 17000
+                }, {
+                    'label': "传统行业",
+                    'value': 18000
+                }, {
+                    'label': "未归类",
+                    'value': 0
+                }, ],
+                filter_reset_button_text: false
+            }, {
+                column_number: 7,
+                data: [{
+                    'label': "朋友介绍",
+                    'value': '朋友介绍'
+                }, {
+                    'label': "社区论坛",
+                    'value': "社区论坛"
+                },{
+                    'label': "线下活动",
+                    'value': "线下活动"
+                },{
+                    'label': "搜索引擎",
+                    'value': "搜索引擎"
+                },{
+                    'label': "新闻媒体",
+                    'value': "新闻媒体"
+                },{
+                    'label': "广告链接",
+                    'value': "广告链接"
+                },{
+                    'label': "客户经理",
+                    'value': "客户经理"
+                }],
+                filter_reset_button_text: false
+            }]);
+
+        $('#datatables tbody').on('click', 'tr', function() {
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+            } else {
+                oTable.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+            }
+        });
+/*
+ $("div.toolbar").html("<a href='/report/custom_list' data-toggle='ajaxModal'><button class=\'ColVis_Button ColVis_MasterButton\ '>生成报表</button></a>");
+*/ 
+        new $.fn.dataTable.FixedHeader(oTable);
+
+    });
+}(window.jQuery);
+</script>

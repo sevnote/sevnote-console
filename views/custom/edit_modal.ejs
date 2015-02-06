@@ -1,0 +1,130 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-body">
+            <div class="form-group"   id='type_select'>
+                <label>客户类型:</label><br/>
+                <select style="width:260px" class="select2"  name="type">
+                    <option value="1" <% if(type === 1) { %> selected <% } %>>个人</option>
+                    <option value="0" <% if(type === 0) { %> selected <% } %>>企业</option>
+                </select>
+                <br/>
+            </div>
+              <div class="form-group"   id='industry_select'>
+                <label>客户行业:</label><br/>
+                <select style="width:260px" class="select2"  name="industry">
+                    <option value="1000" <% if(industry === '1000') { %> selected <% } %> >电子商务</option>
+                    <option value="2000" <% if(industry === '2000') { %> selected <% } %> >手游</option>
+                    <option value="3000" <% if(industry === '3000') { %> selected <% } %> >页游</option>
+                    <option value="4000" <% if(industry === '4000') { %> selected <% } %> >数据分析</option>
+                    <option value="5000" <% if(industry === '5000') { %> selected <% } %> >移动APP</option>
+                    <option value="6000" <% if(industry === '6000') { %> selected <% } %> >网站</option>
+                    <option value="7000" <% if(industry === '7000') { %> selected <% } %> >SAAS</option>
+                    <option value="8000" <% if(industry === '8000') { %> selected <% } %> >端游</option>
+                    <option value="9000"  <% if(industry === '9000') { %> selected <% } %> >工具软件</option>
+                    <option value="10000" <% if(industry === '10000') { %> selected <% } %> >教育培训</option>
+                    <option value="11000" <% if(industry === '11000') { %> selected <% } %> >金融服务</option>
+                    <option value="12000" <% if(industry === '12000') { %> selected <% } %> >生活娱乐</option>
+                    <option value="13000" <% if(industry === '13000') { %> selected <% } %> >智能硬件</option>
+                    <option value="14000" <% if(industry === '14000') { %> selected <% } %> >旅游户外</option>
+                    <option value="15000" <% if(industry === '15000') { %> selected <% } %> >广告营销</option>
+                    <option value="16000" <% if(industry === '16000') { %> selected <% } %> >媒体资讯</option>
+                    <option value="17000" <% if(industry === '17000') { %> selected <% } %> >社交网络</option>
+                    <option value="18000" <% if(industry === '18000') { %> selected <% } %> >传统行业</option>
+                    <option value="0" <% if(industry === '0') { %> selected <% } %> >未归类</option>
+                </select>
+                <br/>
+            </div>
+            <div class="form-group"   id='known_from_select'>
+                <label>客户来源:</label><br/>
+                <select style="width:260px" class="select2"  name="known_from">
+                    <option value="社区论坛" <% if(known_from === '社区论坛') { %> selected <% } %>>社区论坛</option>
+                    <option value="朋友介绍" <% if(known_from === '朋友介绍') { %> selected <% } %>>朋友介绍</option>
+                    <option value="线下活动" <% if(known_from === '线下活动') { %> selected <% } %>>线下活动</option>
+                    <option value="搜索引擎" <% if(known_from === '搜索引擎') { %> selected <% } %>>搜索引擎</option>
+                    <option value="新闻媒体" <% if(known_from === '新闻媒体') { %> selected <% } %>>新闻媒体</option>
+                    <option value="广告链接" <% if(known_from === '广告链接') { %> selected <% } %>>广告链接</option>
+                    <option value="客户经理" <% if(known_from === '客户经理') { %> selected <% } %>>客户经理</option>
+                    <option value="其他" <% if(known_from === '其他') { %> selected <% } %> >其他</option>
+                    <option value="" <% if(known_from === null) { %> selected <% } %> >未归类</option>
+                </select>
+                <br/>
+            </div>
+            <div class='form-group'>
+                <textarea class="form-control" placeholder="备注" style="resize: none;" name="remark"><%=remark%></textarea>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <input type="hidden" value="<%=online_id %>" name="online_id">
+            <button   id="submit" class="btn  btn-success">确定</button>
+            <button type="button" class="btn btn-dark" data-dismiss="modal">关闭</button>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/js/noty/packaged/jquery.noty.packaged.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $(".select2").select2();
+    $("input[name='audited']").change(
+        function() {
+            var selectedvalue = $("input[name='audited']:checked").val();
+            if (selectedvalue === '1') {
+                $("#region_select").show();
+                $("#manager_select").show();
+            } else {
+                $("#region_select").hide();
+                $("#manager_select").hide();
+            }
+        });
+
+
+    $("#submit").click(function() {
+        var inputs = $("input:radio:checked").add($("input:text")).add($("input:hidden")).add($("select")).add($("textarea")).add($('.more-tag:selected')),
+            str = "";
+        var obj = {};
+        $.each(inputs, function(index) {
+            if (this.name != '' && this.value != '') {
+                var value = this.value;
+                if ($(this).attr('class') == 'select2 full-width-fix more-tag select2-offscreen') {
+                    var foo = [];
+                    $('.more-tag :selected').each(function(i, selected) {
+                        foo[i] = $(selected).attr('value');
+                    });
+                    var value = foo;
+                }
+                obj[this.name] = value
+            }
+        });
+        delete obj.undefined;
+        $.ajax({
+            type: 'POST',
+            data: JSON.stringify(obj),
+            contentType: 'application/json',
+            url: '/custom/edit_do',
+            success: function(data) {
+                if (data.ret_code === 1000) {
+                    $.each(data.error_field, function(item) {
+                        var error_obj = $("[name='" + data.error_field[item] + "']").focus();
+                        var error_obj = $("[name='" + data.error_field[item] + "']").parent().addClass('has-error');
+                    });
+                    noty({
+                        text: data.error_message,
+                        type: "error",
+                        layout: 'topRight',
+                        timeout: 1
+                    });
+                } else {
+                    noty({
+                        text: '操作成功',
+                        type: "success",
+                        layout: 'topRight',
+                        timeout: 1
+                    });
+                    //Success Display
+                    $('.modal.in').modal('hide');
+                    location.reload();
+                }
+            }
+        });
+    });
+});
+</script>

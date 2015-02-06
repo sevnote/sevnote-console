@@ -1,0 +1,79 @@
+<% include ../public/header.ejs %>
+<section class="panel panel-default scrollable">
+        <header class="panel-heading"> <i class="fa fa-building-o"></i> 新客户审核 <i class="fa fa-info-sign text-muted" data-toggle="tooltip" data-placement="bottom" ></i> </header>
+        <div>
+          <table class="table table-striped b-t b-light" data-ride="datatables">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>注册时间</th>
+                <th>姓名</th>
+                <th>E-mail</th>
+                <th>手机</th>
+                <th>QQ</th>
+                <th>公司名称</th>
+                <th>职位</th>
+                <th>行业</th>
+                <th>类型</th>
+                <th>来源</th>
+                <th>备注</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+      </section>
+<% include ../public/footer.ejs %>
+<script type="text/javascript">
+ + function($) {
+    $(function() {
+    $('[data-ride="datatables"]').each(function() {
+      oTable = $(this).dataTable({
+        "autoWidth": false,
+        "iDisplayLength": 200,
+        "dom": '<"toolbar">frtip',
+        "processing": true,
+        "ajax": {
+          url: "/custom/audit_datatable"
+        },
+        "order": [[ 0, "desc" ]],
+        "columns": [
+            { "data": "online_id","width": "5%"},
+            { "data": "created","width": "9%"},
+            { "data": "user_name","width": "5%","bSortable": false },
+            { "data": "email","width": "5%","bSortable": false},
+            { "data": "handphone","width": "5%" ,"bSortable": false},
+            { "data": "qq","width": "6%" ,"bSortable": false},
+            { "data": "name","width": "6%","bSortable": false },
+            { "data": "position","width": "5%" ,"bSortable": false},
+            { "data": "industry","width": "7%","bSortable": false },
+            { "data": "type","width": "6%" },
+            { "data": "known_from","width": "6%","bSortable": false },
+            { "data": "remark","width": "8%","bSortable": false },
+            { "data": "action","width": "5%" ,"bSortable": false},
+        ],
+        "sPaginationType": "full_numbers",
+        "oLanguage": {
+          "sProcessing": "<img src='/images/datatable_loading.gif'>  努力加载数据中.",
+          "sLengthMenu": "每页显示 _MENU_ 条记录",
+          "sZeroRecords": "抱歉， 没有找到",
+          "sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
+          "sInfoEmpty": "没有数据",
+          "sInfoFiltered": "(从 _MAX_ 条数据中检索)",
+          "sZeroRecords": "没有检索到数据",
+          "sSearch": "模糊查询:  ",
+          "oPaginate": {
+            "sFirst": "首页",
+            "sPrevious": "前一页",
+            "sNext": "后一页",
+            "sLast": "尾页"
+          }
+        },
+      });
+      $("div.toolbar").html("<div class=\'dataTables_filter pull-left\'><a class=\'btn btn-primary\' > 上次触发同步时间 <%=last_sync%></a>");
+    });
+  });
+}(window.jQuery); 
+</script>

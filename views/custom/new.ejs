@@ -1,0 +1,73 @@
+<% include ../public/header.ejs %>
+<section class="panel panel-default scrollable">
+        <header class="panel-heading"> <i class="fa fa-building-o"></i> 新客户审核 <i class="fa fa-info-sign text-muted" data-toggle="tooltip" data-placement="bottom" ></i> </header>
+        <div>
+          <table class="table table-striped b-t b-light" data-ride="datatables">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>注册时间</th>
+                <th>姓名</th>
+                <th>电话</th>
+                <th>E-mail</th>
+                <th>QQ</th>
+                <th>来源</th>
+                <th>公司名称</th>
+                <th>公司行业</th>
+                <th>备注</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+      </section>
+<% include ../public/footer.ejs %>
+<script type="text/javascript">
+ + function($) {
+    $(function() {
+    $('[data-ride="datatables"]').each(function() {
+      var oTable = $(this).dataTable({
+        "autoWidth": false,
+        "iDisplayLength": 50,
+        "dom": '<"toolbar">frtip',
+        "processing": true,
+        "ajax": {
+          url: "/custom/datatable"
+        },
+        "order": [[ 7, "desc" ]],
+        "columns": [
+            { "data": "name","width": "15%"},
+            { "data": "email","width": "10%"},
+            { "data": "level","width": "5%" },
+            { "data": "type","width": "5%" },
+            { "data": "industry","width": "6%" },
+            { "data": "activate_flag","width": "6%" },
+            { "data": "phone_active_flag","width": "6%" },
+            { "data": "ps","width": "15%" },
+            { "data": "create_date","width": "7%" },
+        ],
+        "sPaginationType": "full_numbers",
+        "oLanguage": {
+          "sProcessing": "<img src='/images/datatable_loading.gif'>  努力加载数据中.",
+          "sLengthMenu": "每页显示 _MENU_ 条记录",
+          "sZeroRecords": "抱歉， 没有找到",
+          "sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
+          "sInfoEmpty": "没有数据",
+          "sInfoFiltered": "(从 _MAX_ 条数据中检索)",
+          "sZeroRecords": "没有检索到数据",
+          "sSearch": "模糊查询:  ",
+          "oPaginate": {
+            "sFirst": "首页",
+            "sPrevious": "前一页",
+            "sNext": "后一页",
+            "sLast": "尾页"
+          }
+        },
+      });
+      $("div.toolbar").html("<div class=\'dataTables_filter pull-left\'><a class=\'btn btn-primary\' > 上次触发同步时间 <%=last_sync%></a>&nbsp;&nbsp;<a class=\'btn btn-info\' href=\'/custom/sync\' >立即同步</a></div>");
+    });
+  });
+}(window.jQuery); 
+</script>

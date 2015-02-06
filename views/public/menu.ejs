@@ -1,0 +1,45 @@
+<section>
+  <section class="hbox stretch"> <!-- .aside -->
+  <aside class="bg-dark aside hidden-print"  id="nav">
+    <section class="vbox">
+      <section class="w-f-md scrollable">
+        <div class="slim-scroll" data-height="auto" data-disable-fade-out="true" data-distance="0" data-size="10px" data-railOpacity="0.2"> <!-- nav -->
+        <nav class="nav-primary hidden-xs">
+          <ul class="nav bg clearfix" data-ride="collapse">
+            <li <%if (controller === 'console') { %> class="active" <% } %> > <a href="#" class="auto"> <span class="pull-right text-muted"> <i class="fa fa-angle-left text"></i> <i class="fa fa-angle-down text-active"></i> </span> <i class="fa fa-laptop"> </i> <span>监控中心</span> </a>
+              <ul class="nav text-sm dk">
+                <li> <a href="/console/dashboard"  class="auto"> <i class="fa fa-angle-right text-xs"></i> <span>实时日志数据</span></a></li>
+                <li > <a href="layout-boxed.html" class="auto"> <i class="fa fa-angle-right text-xs"></i> <span>实时监控数据</span> </a> </li>
+              </ul>
+            </li>
+            <li <%if (controller === 'analyze') { %> class="active" <% } %>> <a href="#" class="auto"> <span class="pull-right text-muted"> <i class="fa fa-angle-left text"></i> <i class="fa fa-angle-down text-active"></i> </span> <i class="fa fa-stethoscope"> </i> <span>分析诊断</span> </a>
+              <ul class="nav dk text-sm">
+                <li> <a href="/analyze/logs" class="auto"> <i class="fa fa-angle-right text-xs"></i> <span>日志分析</span> </a> </li>
+                <li> <a href="/analyze/log_snapshot" class="auto"> <i class="fa fa-angle-right text-xs"></i> <span>日志快照</span> </a> </li>
+              </ul>
+            </li>
+            <li > <a href="/alert/list" > <span class="pull-right text-muted"></span> <i class="fa fa-bell"> </i> <span>告警系统</span> </a>
+            </li>
+          </li>
+            <li  <%if (controller === 'audited') { %> class="active" <% } %>> <a href="#" class="auto"> <span class="pull-right text-muted"> <i class="fa fa-angle-left text"></i> <i class="fa fa-angle-down text-active"></i> </span> <i class="fa fa-history"> </i> <span>运维审计</span> </a>
+            <ul class="nav dk text-sm">
+              <li > <a href="/audited/live" class="auto" ><i class="fa fa-angle-right text-xs"></i> <span>实时操作监控</span> </a> </li>
+              <li > <a href="/audited/history" class="auto" ><i class="fa fa-angle-right text-xs"></i> <span>历史操作记录</span> </a> </li>
+            </ul>
+          </li>
+          <li  <%if (controller === 'setup') { %> class="active" <% } %>> <a href="#" class="auto"> <span class="pull-right text-muted"> <i class="fa fa-angle-left text"></i> <i class="fa fa-angle-down text-active"></i> </span> <i class="fa fa-cog"> </i> <span>系统设置</span> </a>
+            <ul class="nav dk text-sm">
+              <li > <a href="/setup/storage" class="auto" ><i class="fa fa-angle-right text-xs"></i> <span>存储管理</span> </a> </li>
+            </ul>
+          </li>
+        </ul>
+        <ul class="nav" id="field_filter" data-ride="collapse">
+          <li class="hidden-nav-xs padder m-t m-b-sm text-xs text-muted filter-title"><i class="fa fa-filter pull-right"></i> 过滤器</li>
+        </ul>
+      </nav>
+      <!-- / nav --> </div>
+    </section>
+  </section>
+</aside>
+<!-- /.aside -->
+

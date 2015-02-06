@@ -1,0 +1,154 @@
+<% include ../public/header.ejs %>
+<section id="content">
+    <section class="vbox">
+        <section class="scrollable padder">
+            </br>
+            <section class="panel panel-default">
+                <header class="panel-heading font-bold">注册用户分析
+                    <div id="reportrange" class="pull-right" style="cursor:pointer;">
+                        <i class="fa fa-calendar fa-lg"></i>&nbsp;
+                        <span>选择时间:&nbsp;<%=now%></span> <b class="caret"></b>
+                    </div></header>
+                    <div class="panel-body">
+                        <div id="chart" style="height:450px" class="center">
+                            <img src="/images/loading.gif" style="padding-top:200px;">
+                        </div>
+                    </div>
+                    <footer class="panel-footer bg-white">
+                        <div class="row text-center no-gutter">
+                            <div class="col-xs-2 b-r b-light">
+                                <p class="h6 font-bold"><a href="#" id="by_industry">按注册行业分布</a></p>
+                            </div>
+                            <div class="col-xs-2 b-r b-light">
+                                <p class="h6 font-bold"><a href="#" id="by_type">按个人/企业类型分布<a/></p>
+                            </div>
+                            <div class="col-xs-2 b-r b-light">
+                                <p class="h6 font-bold"><a href="#" id="by_known_from">按获知渠道分布</a></p>
+                            </div>
+                            <div class="col-xs-2 b-r b-light">
+                                <p class="h6 font-bold"><a href="#" id="by_audited">注册审核分析</a></p>
+                            </div>
+                             <div class="col-xs-2 b-r b-light">
+                                <p class="h6 font-bold"><a href="#" id="by_referrer_url">注册来源URL</a></p>
+                            </div>
+                             <div class="col-xs-2 b-r b-light">
+                                <p class="h6 font-bold"><a href="#" id="by_referrer_code">注册活动码</a></p>
+                            </div>
+                        </div>
+                    </footer>
+                </section>
+<% include ../public/footer.ejs %>
+<script type="text/javascript">
+var loadchart = function(startstamp,endstamp,url){
+    $.ajax({
+    type: 'GET',
+    contentType: 'application/json',
+    url: url+startstamp+'/'+endstamp,
+    success: function(data) {
+        if(data.data.length === 0){
+            $("#chart").html("<h3 class='center' style='padding-top:190px;text-align:center'>数据过少，系统暂时无法统计今天的数据,请选择其他日期<h3>");
+            return
+        }
+        $("#chart").removeClass('center');
+        var chart = AmCharts.makeChart("chart", {
+            "allLabels": [
+                {
+                "id": "Label-1",
+                "text": data.count + title_label,
+                "x": 7,
+                "y": 50,
+                "bold": true,
+                "size":14
+                }
+            ],
+            "type": "pie",
+            "theme": "light",
+            "legend": {
+                "markerType": "circle",
+                "position": "right",
+                "marginRight": 80,
+                "autoMargins": false
+            },
+            "dataProvider": data.data,
+            "valueField": "value",
+            "titleField": "date",
+            "fontFamily": "微软雅黑",
+            "pieY": "60%",
+        });
+
+    }
+});
+}
+    var startstamp = moment().startOf("day").format('X');
+    var endstamp = moment().format('X');
+    window.url = '/report/by_industry/'
+    window.title_label = '个接入客户';
+    loadchart(startstamp,endstamp,url);
+
+    $("#by_industry").click(function(){
+        loadchart(startstamp,endstamp,'/report/by_industry/');
+        window.url = '/report/by_industry/';
+        window.title_label = '个接入客户'
+    })
+     $("#by_type").click(function(){
+        loadchart(startstamp,endstamp,'/report/by_type/');
+        window.url = '/report/by_type/';
+        window.title_label = '个接入客户';
+    })
+    $("#by_known_from").click(function(){
+        loadchart(startstamp,endstamp,'/report/by_known_from/');
+        window.url = '/report/by_known_from/';
+        window.title_label = '个接入客户';
+    })
+    $("#by_audited").click(function(){
+        loadchart(startstamp,endstamp,'/report/by_audited/');
+        window.url = '/report/by_audited/';
+        window.title_label = '个注册用户';
+    })
+    $("#by_referrer_url").click(function(){
+        loadchart(startstamp,endstamp,'/report/by_referrer_url/');
+        window.url = '/report/by_referrer_url/';
+        window.title_label = '个注册用户';
+    })
+    $("#by_referrer_code").click(function(){
+        loadchart(startstamp,endstamp,'/report/by_referrer_code/');
+        window.url = '/report/by_referrer_code/';
+        window.title_label = '个注册用户';
+    })
+    
+
+    $('#reportrange').daterangepicker(
+        {
+            locale: {
+                applyLabel: "确定",
+                cancelLabel: "取消",
+                fromLabel: "从",
+                toLabel: "到",
+                customRangeLabel: "自定义范围",
+                daysOfWeek: ["日", "一", "二", "三", "四", "五", "六"],
+                monthNames: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+                firstDay: 1
+            },
+            timePicker: true,
+            timePicker12Hour: false,
+            timeFormat: "HH:mm",
+            format: "YYYY-MM-DD",
+            ranges: {
+                "今天": [moment().startOf("day"), moment()],
+                "昨天": [moment().subtract("days", 1).startOf("day"), moment().subtract("days", 1).endOf("day")],
+                "最近7天": [moment().subtract("days", 6), moment()],
+                "最30天": [moment().subtract("days", 29), moment()],
+                "本月": [moment().startOf("month"), moment().endOf("month")],
+                "上月": [moment().subtract("month", 1).startOf("month"), moment().subtract("month", 1).endOf("month")]
+            },
+            startDate: moment().subtract('days', 29),
+            endDate: moment()
+        },
+        function(start, end) {
+            $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            window.startstamp = start.format('X');
+            window.endstamp = end.format('X');
+            loadchart(startstamp,endstamp,url);
+        }
+    );
+</script>
